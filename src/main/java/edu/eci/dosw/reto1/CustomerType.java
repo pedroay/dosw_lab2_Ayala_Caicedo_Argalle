@@ -35,6 +35,6 @@ public enum CustomerType implements DiscountStrategy {
 
     @Override
     public String toString() {
-        return displayName + " (" + (int)(discountPercentage * 100) + "% desc.)";
+        return displayName + " (" + (int) (discountPercentage * 100) + "% desc.)";
     }
 }
