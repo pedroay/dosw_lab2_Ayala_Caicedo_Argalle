@@ -2,9 +2,19 @@ package edu.eci.dosw.reto3;
 
 public class EconomyWaterVehicule implements WaterVehicule {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private boolean anchor;
 
-    public EconomyWaterVehicule(String type) {
+    public EconomyWaterVehicule(String type,double maximumSpeed,double price,String comfort,String equipement,boolean anchor) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipement;
+        this.anchor = anchor;
     }
 
     @Override
@@ -19,22 +29,22 @@ public class EconomyWaterVehicule implements WaterVehicule {
 
     @Override
     public double getMaximumSpeed() {
-        return 45.0; // Nudos o km/h bajos
+        return maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 10000.0;
+        return this.price;
     }
 
     @Override
     public String getComfort() {
-        return "Simple Seating";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Life Vests, Manual Oars, Basic Compass";
+        return this.equipment;
     }
 
     @Override
@@ -44,6 +54,6 @@ public class EconomyWaterVehicule implements WaterVehicule {
 
     @Override
     public boolean hasAnchor() {
-        return true;
+        return this.anchor;
     }
 }

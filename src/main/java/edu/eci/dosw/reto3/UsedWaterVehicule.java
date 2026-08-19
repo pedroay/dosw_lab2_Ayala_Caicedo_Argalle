@@ -2,9 +2,19 @@ package edu.eci.dosw.reto3;
 
 public class UsedWaterVehicule implements WaterVehicule {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private boolean anchor;
 
-    public UsedWaterVehicule(String type) {
+    public UsedWaterVehicule(String type,double maximumSpeed,double price,String comfort,String equipement,boolean anchor) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipement;
+        this.anchor = anchor;
     }
 
     @Override
@@ -19,31 +29,31 @@ public class UsedWaterVehicule implements WaterVehicule {
 
     @Override
     public double getMaximumSpeed() {
-        return 30.0;
+        return maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 4000.0;
+        return this.price;
     }
 
     @Override
     public String getComfort() {
-        return "Basic Weathered Seating";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Manual Anchor, Standard Life Vests, Basic Radio";
+        return this.equipment;
     }
 
     @Override
     public void navigateWater() {
-        System.out.println("Navigating Used " + type + " through calm waters.");
+        System.out.println("Sailing " + type + " gently on water.");
     }
 
     @Override
     public boolean hasAnchor() {
-        return true;
+        return this.anchor;
     }
 }

@@ -2,12 +2,22 @@ package edu.eci.dosw.reto3;
 
 public class LuxuryLandVehicule implements LandVehicle {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private int wheels;
 
-    public LuxuryLandVehicule(String type) {
+    public LuxuryLandVehicule(String type,double maximumSpeed, double price, String comfort, String equipemnt,int wheels) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipemnt;
+        this.wheels = wheels;
     }
 
-    @Override
+@Override
     public String getType() {
         return type;
     }
@@ -19,34 +29,31 @@ public class LuxuryLandVehicule implements LandVehicle {
 
     @Override
     public double getMaximumSpeed() {
-        return 280.0;
+        return this.maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 85000.0;
+        return this.price;
     }
 
     @Override
     public String getComfort() {
-        return "High-End Leather & Climate Control";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Autopilot, Massage Seats, Premium Sound System";
+        return this.equipment;
     }
 
     @Override
     public void driveOnRoad() {
-        System.out.println("Driving Luxury " + type + " smoothly on the highway.");
+        System.out.println("Driving " + type + " economically on the road.");
     }
 
     @Override
     public int getWheelCount() {
-        if (type.equalsIgnoreCase("Bicycle") || type.equalsIgnoreCase("Motorcycle")) {
-            return 2;
-        }
-        return 4;
+        return this.wheels;
     }
 }

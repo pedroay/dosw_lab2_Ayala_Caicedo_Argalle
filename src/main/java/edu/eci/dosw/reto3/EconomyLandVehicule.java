@@ -2,9 +2,19 @@ package edu.eci.dosw.reto3;
 
 public class EconomyLandVehicule implements LandVehicle {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private int wheels;
 
-    public EconomyLandVehicule(String type) {
+    public EconomyLandVehicule(String type,double maximumSpeed, double price, String comfort, String equipemnt,int wheels) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipemnt;
+        this.wheels = wheels;
     }
 
     @Override
@@ -19,22 +29,22 @@ public class EconomyLandVehicule implements LandVehicle {
 
     @Override
     public double getMaximumSpeed() {
-        return 120.0; // Velocidad estándar para la categoría económica
+        return this.maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 15000.0; // Precio accesible para la categoría económica
+        return this.price;
     }
 
     @Override
     public String getComfort() {
-        return "Basic Comfort";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Standard Seatbelts, FM Radio, Manual Windows";
+        return this.equipment;
     }
 
     @Override
@@ -44,9 +54,6 @@ public class EconomyLandVehicule implements LandVehicle {
 
     @Override
     public int getWheelCount() {
-        if (type.equalsIgnoreCase("Bicycle") || type.equalsIgnoreCase("Motorcycle")) {
-            return 2;
-        }
-        return 4;
+        return this.wheels;
     }
 }

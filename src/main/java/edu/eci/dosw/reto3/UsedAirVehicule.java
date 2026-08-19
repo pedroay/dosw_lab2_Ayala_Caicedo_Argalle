@@ -1,49 +1,59 @@
 package edu.eci.dosw.reto3;
 
-public class UsedAirVehicule implements AirVehicule {
-    private String type;
+    public class UsedAirVehicule implements AirVehicule {
+        private String type;
+        private double maximumSpeed;
+        private double price;
+        private String comfort;
+        private String equipment;
+        private double maximumAltitud;
 
-    public UsedAirVehicule(String type) {
-        this.type = type;
-    }
+        public UsedAirVehicule(String type,double maximumSpeed, double price, String comfort, String equipemnt, double maxAltitusd) {
+            this.type = type;
+            this.maximumSpeed = maximumSpeed;
+            this.price = price;
+            this.comfort = comfort;
+            this.equipment = equipemnt;
+            this.maximumAltitud = maxAltitusd;
+        }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+            @Override
+        public String getType() {
+            return type;
+        }
 
-    @Override
-    public String getCategory() {
-        return "Used";
-    }
+        @Override
+        public String getCategory() {
+            return "Used";
+        }
 
-    @Override
-    public double getMaximumSpeed() {
-        return 180.0;
-    }
+        @Override
+        public double getMaximumSpeed() {
+            return maximumSpeed;
+        }
 
-    @Override
-    public double getPrice() {
-        return 20000.0;
-    }
+        @Override
+        public double getPrice() {
+            return price;
+        }
 
-    @Override
-    public String getComfort() {
-        return "Functional Vintage Seats";
-    }
+        @Override
+        public String getComfort() {
+            return this.comfort;
+        }
 
-    @Override
-    public String getEquipment() {
-        return "Analog Gauges, Maintenance Logbook, Radio Transceiver";
-    }
+        @Override
+        public String getEquipment() {
+            return this.equipment;
+        }
 
-    @Override
-    public void fly() {
-        System.out.println("Flying Used " + type + " with extra caution.");
-    }
+        @Override
+        public void fly() {
+            System.out.println("Flying " + type + " at standard cruising altitude.");
+        }
 
-    @Override
-    public double getMaxAltitude() {
-        return 2500.0;
+        @Override
+        public double getMaxAltitude() {
+            return maximumAltitud;
+        }
     }
-}
