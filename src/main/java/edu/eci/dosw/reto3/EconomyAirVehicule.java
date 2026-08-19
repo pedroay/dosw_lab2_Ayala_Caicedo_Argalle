@@ -2,6 +2,8 @@ package edu.eci.dosw.reto3;
 
 public class EconomyAirVehicule implements AirVehicule {
     private String type;
+    private double maximumSpeed;
+    private double price;
 
     public EconomyAirVehicule(String type) {
         this.type = type;
@@ -19,7 +21,7 @@ public class EconomyAirVehicule implements AirVehicule {
 
     @Override
     public double getMaximumSpeed() {
-        return 220.0;
+        return maximumSpeed;
     }
 
     @Override
