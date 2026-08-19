@@ -37,4 +37,8 @@ public class Restaurant {
             hamburguer.setMeat(this.meat);
         }
     }
+
+    public double hamburguerPrice(){
+        return hamburguer.calculatePrice();
+    }
 }

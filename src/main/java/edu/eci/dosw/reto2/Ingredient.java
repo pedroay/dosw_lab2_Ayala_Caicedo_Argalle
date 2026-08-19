@@ -12,4 +12,8 @@ public  class Ingredient {
     public double getPrice(){
         return this.price;
     }
+
+    public String getName(){
+        return this.name;
+    }
 }
