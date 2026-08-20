@@ -4,9 +4,17 @@ public class EconomyAirVehicule implements AirVehicule {
     private String type;
     private double maximumSpeed;
     private double price;
+    private String comfort;
+    private String equipment;
+    private double maximumAltitud;
 
-    public EconomyAirVehicule(String type) {
+    public EconomyAirVehicule(String type,double maximumSpeed, double price, String comfort, String equipemnt, double maxAltitusd) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipemnt;
+        this.maximumAltitud = maxAltitusd;
     }
 
     @Override
@@ -26,17 +34,17 @@ public class EconomyAirVehicule implements AirVehicule {
 
     @Override
     public double getPrice() {
-        return 50000.0;
+        return price;
     }
 
     @Override
     public String getComfort() {
-        return "Standard Airplane Cabin";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Basic Altimeter, Emergency Parachutes";
+        return this.equipment;
     }
 
     @Override
@@ -46,6 +54,6 @@ public class EconomyAirVehicule implements AirVehicule {
 
     @Override
     public double getMaxAltitude() {
-        return 3000.0; // Altitud máxima en metros
+        return maximumAltitud;
     }
 }

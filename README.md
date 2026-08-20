@@ -24,6 +24,31 @@ Polymorphism is demonstrated through the use of the `DiscountStrategy` interface
 
 ---
 
+# Reto 6 — Talk to Technical Support
+
+## Design Pattern Documentation
+
+| Item | Team Explanation |
+|---|---|
+| **Design Pattern Category** | Behavioral (patrón de comportamiento) |
+| **Pattern Used** | Chain of Responsibility |
+| **Justification** | El enunciado pide explícitamente que, si un técnico no puede resolver un ticket, este se pase al siguiente técnico. Eso es la definición del patrón: una cadena de manejadores donde cada uno decide procesar la solicitud o delegarla, sin que quien la envía sepa de antemano quién la resolverá. |
+| **How It Was Applied** | Cada `Tecnico` es un eslabón con una especialidad (`Dificultad`) y una prioridad máxima. Se enlazan con `setSiguiente(...)`. Al llegar un ticket, `atender(ticket)` evalúa si puede resolverlo (`puedeResolver`); si no, llama a `siguiente.atender(ticket)`. Si ningún eslabón puede resolverlo, el ticket se marca como pendiente con `marcarPendienteEscalacion()`. |
+
+
+### Ejemplo real
+
+```
+Ticket: "Instalacion de software con licencia especial" (BASICO / ALTA)
+   Ana no puede atender ... -> escalando...
+   Luis no puede atender ... -> escalando...
+   alfonso resolvio el ticket "Instalacion de software con licencia especial".
+```
+
+Este ticket pasó por 3 técnicos (Ana → Luis → alfonso) antes de resolverse, cumpliendo el requisito de mostrar el recorrido por la cadena.
+
 ### Encapsulation and Immutability
 - **Encapsulation:** Attributes across all classes (`Product`, `CartItem`, `Customer`, `ShoppingCart`, `Receipt`) are declared `private final`, exposing data strictly through getter methods. Additionally, `ShoppingCart` protects its internal state by returning an unmodifiable list via `Collections.unmodifiableList(items)`, preventing unauthorized external modification of cart items.
 - **Immutability:** Domain entities (`Product`, `CartItem`, `Customer`) are immutable. Once a product is created, attributes such as its unit price (`unitPrice`) cannot be modified, guaranteeing pricing data integrity and consistency throughout the entire transaction lifecycle.
+
+---

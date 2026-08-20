@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+// Challenge 2 — The Five-Star Chef (Builder pattern)
+
 public class Reto2RestauranteHamburguesa {
 
-    public static void main(String[] args) {
+    public static void run() {
         Scanner scanner = new Scanner(System.in);
         Restaurant restaurant = new Restaurant();
         restaurant.newHamburguer();
@@ -55,15 +57,15 @@ public class Reto2RestauranteHamburguesa {
 
         // Calcular el precio final
         int precioTotal = (ingredientesSeleccionados.getOrDefault("Bread", 0) * PRECIO_BREAD) +
-                          (ingredientesSeleccionados.getOrDefault("Tomato", 0) * PRECIO_TOMATO) +
-                          (ingredientesSeleccionados.getOrDefault("Cheese", 0) * PRECIO_CHEESE) +
-                          (ingredientesSeleccionados.getOrDefault("Meat", 0) * PRECIO_MEAT);
+                (ingredientesSeleccionados.getOrDefault("Tomato", 0) * PRECIO_TOMATO) +
+                (ingredientesSeleccionados.getOrDefault("Cheese", 0) * PRECIO_CHEESE) +
+                (ingredientesSeleccionados.getOrDefault("Meat", 0) * PRECIO_MEAT);
 
         // --- DISPLAY / RESUMEN FINAL ---
         System.out.println("\n================================================");
         System.out.println("            RESUMEN DE TU HAMBURGUESA           ");
         System.out.println("================================================");
-        
+
         if (ingredientesSeleccionados.isEmpty()) {
             System.out.println("No seleccionaste ningún ingrediente.");
             System.out.println("Precio Final: $0");
@@ -72,22 +74,18 @@ public class Reto2RestauranteHamburguesa {
             for (Map.Entry<String, Integer> entry : ingredientesSeleccionados.entrySet()) {
                 System.out.println(" - " + entry.getKey() + ": " + entry.getValue() + " unidad(es)");
             }
-            
+
             System.out.println("\nA final summary of the customized hamburger:");
-            System.out.println(" Hamburguesa personalizada con " + ingredientesSeleccionados.size() + " tipo(s) de ingrediente(s).");
-            
+            System.out.println(" Hamburguesa personalizada con " + ingredientesSeleccionados.size()
+                    + " tipo(s) de ingrediente(s).");
+
             System.out.println("\nThe final price (Precio final):");
             System.out.println(" $" + precioTotal);
         }
-        
+
         System.out.println("================================================");
         System.out.println("¡Gracias por tu pedido!");
         scanner.close();
-    
-
-        System.out.println("¡Gracias por tu pedido!");
-        scanner.close();
     }
+
 }
-
-

@@ -2,9 +2,19 @@ package edu.eci.dosw.reto3;
 
 public class LuxuryWaterVehicule implements WaterVehicule {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private boolean anchor;
 
-    public LuxuryWaterVehicule(String type) {
+    public LuxuryWaterVehicule(String type,double maximumSpeed,double price,String comfort,String equipement,boolean anchor) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipement;
+        this.anchor = anchor;
     }
 
     @Override
@@ -17,33 +27,33 @@ public class LuxuryWaterVehicule implements WaterVehicule {
         return "Luxury";
     }
 
-    @Override
+   @Override
     public double getMaximumSpeed() {
-        return 95.0;
+        return maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 150000.0;
+        return this.price;
     }
 
     @Override
     public String getComfort() {
-        return "VIP Suite & Heated Leather Seats";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Sonar, Automatic Navigation System, Mini Bar";
+        return this.equipment;
     }
 
     @Override
     public void navigateWater() {
-        System.out.println("Sailing Luxury " + type + " in ultimate comfort.");
+        System.out.println("Sailing " + type + " gently on water.");
     }
 
     @Override
     public boolean hasAnchor() {
-        return true;
+        return this.anchor;
     }
 }

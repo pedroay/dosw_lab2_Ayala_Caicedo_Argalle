@@ -2,12 +2,22 @@ package edu.eci.dosw.reto3;
 
 public class LuxuryAirVehicule implements AirVehicule {
     private String type;
+    private double maximumSpeed;
+    private double price;
+    private String comfort;
+    private String equipment;
+    private double maximumAltitud;
 
-    public LuxuryAirVehicule(String type) {
+    public LuxuryAirVehicule(String type,double maximumSpeed, double price, String comfort, String equipemnt, double maxAltitusd) {
         this.type = type;
+        this.maximumSpeed = maximumSpeed;
+        this.price = price;
+        this.comfort = comfort;
+        this.equipment = equipemnt;
+        this.maximumAltitud = maxAltitusd;
     }
 
-    @Override
+     @Override
     public String getType() {
         return type;
     }
@@ -19,31 +29,32 @@ public class LuxuryAirVehicule implements AirVehicule {
 
     @Override
     public double getMaximumSpeed() {
-        return 600.0;
+        return maximumSpeed;
     }
 
     @Override
     public double getPrice() {
-        return 500000.0;
+        return price;
     }
 
     @Override
     public String getComfort() {
-        return "First-Class Leather Recliners & Active Noise Cancelling";
+        return this.comfort;
     }
 
     @Override
     public String getEquipment() {
-        return "Advanced Radar, Pressurized Luxury Cabin, Satellite Phone";
+        return this.equipment;
     }
 
     @Override
     public void fly() {
-        System.out.println("Flying Luxury " + type + " in style.");
+        System.out.println("Flying " + type + " at standard cruising altitude.");
     }
 
     @Override
     public double getMaxAltitude() {
-        return 12000.0;
+        return maximumAltitud;
     }
+
 }
