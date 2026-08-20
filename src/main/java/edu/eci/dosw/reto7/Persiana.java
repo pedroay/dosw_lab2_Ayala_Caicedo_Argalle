@@ -4,7 +4,7 @@ package reto7;
 public class Persiana implements Dispositivo {
 
     private final String nombre;
-    private int posicion; // 0-100
+    private int posicion; 
 
     public Persiana(String nombre) {
         this.nombre = nombre;
