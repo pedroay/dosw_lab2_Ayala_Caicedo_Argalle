@@ -1,4 +1,4 @@
-package com.softtechsupport;
+package reto6;
 
 /**
  * Prioridad de un ticket. Cada valor lleva asociado un nivel numerico
@@ -9,13 +9,10 @@ public enum Prioridad {
     BAJA(1),
     MEDIA(2),
     ALTA(3);
-
     private final int nivel;
-
     Prioridad(int nivel) {
         this.nivel = nivel;
     }
-
     public int getNivel() {
         return nivel;
     }

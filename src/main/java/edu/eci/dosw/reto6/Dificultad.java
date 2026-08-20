@@ -1,4 +1,4 @@
-package com.softtechsupport;
+package reto6;
 
 /**
  * Nivel de complejidad de un ticket de soporte.

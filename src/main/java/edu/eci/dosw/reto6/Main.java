@@ -1,4 +1,4 @@
-package com.softtechsupport;
+package reto6;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         Tecnico primero = construirCadena();
         List<Ticket> tickets = leerTickets(sc);
-
         if (tickets.isEmpty()) {
             System.out.println("No se ingreso ningun ticket. Fin del programa.");
             return;
@@ -31,9 +29,7 @@ public class Main {
 
         System.out.println("\n===== RESULTADO FINAL =====");
         tickets.forEach(System.out::println);
-
         new EstadisticasTickets(tickets).imprimirResumen();
-
         sc.close();
     }
 
@@ -44,33 +40,44 @@ public class Main {
      * experiencia.
      */
     private static Tecnico construirCadena() {
-        Tecnico ana   = new Tecnico("Ana",   Dificultad.BASICO,     Prioridad.BAJA);
-        Tecnico luis  = new Tecnico("Luis",  Dificultad.BASICO,     Prioridad.MEDIA);
-        Tecnico carla = new Tecnico("Carla", Dificultad.INTERMEDIO, Prioridad.MEDIA);
-        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIO, Prioridad.ALTA);
-        Tecnico sofia = new Tecnico("Sofia", Dificultad.AVANZADO,   Prioridad.ALTA);
+        Tecnico ana =new Tecnico("Ana",Dificultad.BASICO, Prioridad.BAJA);
+        Tecnico luis = new Tecnico("Luis", Dificultad.BASICO,Prioridad.MEDIA);
+        Tecnico alfonso = new Tecnico("alfonso", Dificultad.BASICO,Prioridad.ALTA);
+        Tecnico carla=new Tecnico("Carla",Dificultad.INTERMEDIO,Prioridad.MEDIA);
+        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIO,Prioridad.ALTA);
+        Tecnico sofia = new Tecnico("Sofia",Dificultad.AVANZADO, Prioridad.ALTA);
 
-        ana.setSiguiente(luis)
-           .setSiguiente(carla)
-           .setSiguiente(jorge)
-           .setSiguiente(sofia);
+        ana.setSiguiente(luis);
+        luis.setSiguiente(alfonso);
+        alfonso.setSiguiente(carla);
+        carla.setSiguiente(jorge);
+        jorge.setSiguiente(sofia);
 
         System.out.println("Cadena de soporte configurada:");
-        System.out.println("  " + ana + " -> " + luis + " -> " + carla + " -> " + jorge + " -> " + sofia);
-
+        imprimirCadena(ana);
         return ana;
+    }
+
+    /** Imprime la cadena de tecnicos. */
+    private static void imprimirCadena(Tecnico primero) {
+        StringBuilder sb = new StringBuilder("Cadena de soporte configurada:\n  ");
+        Tecnico actual = primero;
+        while (actual != null) {
+            sb.append(actual);
+            actual = actual.getSiguiente();
+            if (actual != null) sb.append(" -> ");
+        }
+        System.out.println(sb);
     }
 
     /** Lee un numero arbitrario de tickets desde la consola. */
     private static List<Ticket> leerTickets(Scanner sc) {
         List<Ticket> tickets = new ArrayList<>();
-
         System.out.println("\n===== INGRESO DE TICKETS =====");
         while (true) {
             System.out.println("\n--- Nuevo ticket (" + (tickets.size() + 1) + ") ---");
             System.out.print("Descripcion (o 'salir' para terminar): ");
             String descripcion = sc.nextLine().trim();
-
             if (descripcion.equalsIgnoreCase("salir")) {
                 break;
             }
@@ -78,10 +85,8 @@ public class Main {
                 System.out.println("La descripcion no puede estar vacia.");
                 continue;
             }
-
             Dificultad dificultad = pedirDificultad(sc);
             Prioridad prioridad = pedirPrioridad(sc);
-
             tickets.add(new Ticket(descripcion, dificultad, prioridad));
         }
         return tickets;

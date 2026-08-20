@@ -1,4 +1,4 @@
-package com.softtechsupport;
+package reto6;
 
 import java.util.List;
 import java.util.Map;
@@ -8,19 +8,15 @@ import java.util.stream.Collectors;
  * Genera estadisticas sobre una lista de tickets usando la API de Streams.
  */
 public class EstadisticasTickets {
-
     private final List<Ticket> tickets;
-
     public EstadisticasTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
     /** Cantidad de tickets agrupados por nivel de dificultad. */
     public Map<Dificultad, Long> ticketsPorNivel() {
         return tickets.stream()
                 .collect(Collectors.groupingBy(Ticket::getDificultad, Collectors.counting()));
     }
-
     /** Cantidad total de tickets resueltos. */
     public long totalResueltos() {
         return tickets.stream()
