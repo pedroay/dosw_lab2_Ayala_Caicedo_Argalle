@@ -1,4 +1,4 @@
-package test.java.edu.eci.dosw.reto4;
+package edu.eci.dosw.reto4;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -113,8 +113,8 @@ class Reto4Test {
     @DisplayName("totalsByTargetCurrency should sum conversions into the same target")
     void testTotalsByTargetCurrency() {
         converter.convert(100.0, "USD", "EUR"); // 92 EUR
-        converter.convert(50.0,  "USD", "EUR"); // 46 EUR
-        converter.convert(1.0,   "USD", "JPY"); // 149.50 JPY
+        converter.convert(50.0, "USD", "EUR"); // 46 EUR
+        converter.convert(1.0, "USD", "JPY"); // 149.50 JPY
 
         Map<String, Double> totals = converter.totalsByTargetCurrency();
         assertEquals(138.0, totals.get("EUR"), 0.001);
@@ -150,9 +150,20 @@ class Reto4Test {
     void testDynamicStrategyRegistration() {
         // Register a custom strategy inline (lambda-style via anonymous class)
         converter.registerStrategy(new ExchangeRateStrategy() {
-            @Override public String getSourceCurrency() { return "JPY"; }
-            @Override public String getTargetCurrency() { return "USD"; }
-            @Override public double convert(double amount) { return amount / 149.50; }
+            @Override
+            public String getSourceCurrency() {
+                return "JPY";
+            }
+
+            @Override
+            public String getTargetCurrency() {
+                return "USD";
+            }
+
+            @Override
+            public double convert(double amount) {
+                return amount / 149.50;
+            }
         });
         double result = converter.convert(149.50, "JPY", "USD");
         assertEquals(1.0, result, 0.01);
