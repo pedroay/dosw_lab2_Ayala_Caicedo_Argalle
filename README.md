@@ -35,14 +35,6 @@ Polymorphism is demonstrated through the use of the `DiscountStrategy` interface
 | **Justification** | El enunciado pide explícitamente que, si un técnico no puede resolver un ticket, este se pase al siguiente técnico. Eso es la definición del patrón: una cadena de manejadores donde cada uno decide procesar la solicitud o delegarla, sin que quien la envía sepa de antemano quién la resolverá. |
 | **How It Was Applied** | Cada `Tecnico` es un eslabón con una especialidad (`Dificultad`) y una prioridad máxima. Se enlazan con `setSiguiente(...)`. Al llegar un ticket, `atender(ticket)` evalúa si puede resolverlo (`puedeResolver`); si no, llama a `siguiente.atender(ticket)`. Si ningún eslabón puede resolverlo, el ticket se marca como pendiente con `marcarPendienteEscalacion()`. |
 
-## Expected Summary
-
-Al procesar los tickets, la salida muestra:
-
-- **Técnico que resolvió cada ticket** — impreso en `Main` (`"X resolvio el ticket..."`) y guardado en `Ticket.tecnicoResolutor`.
-- **Tickets que pasaron por más de un técnico** — cada intento fallido imprime `"X no puede atender... -> escalando..."` antes de llegar al que sí resuelve; se ve la ruta completa de escalación.
-- **Tickets no resueltos** — quedan marcados como `PENDIENTE DE ESCALACION` (`Ticket.toString()`).
-- **Estadísticas de resolución** — calculadas con Streams en `EstadisticasTickets`: tickets por nivel, resueltos, pendientes, resueltos por técnico y promedio de prioridad de los resueltos.
 
 ### Ejemplo real
 
