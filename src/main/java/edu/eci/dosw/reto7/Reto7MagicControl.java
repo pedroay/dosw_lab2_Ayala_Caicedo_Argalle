@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ import java.util.Scanner;
  * traves del ControlRemoto (patron Command), permite deshacer
  * acciones puntuales y finalmente muestra el resumen de auditoria.
  */
-public class Main {
+public class Reto7MagicControl {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

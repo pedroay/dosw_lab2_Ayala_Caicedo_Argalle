@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Comando concreto: cierra una puerta. Deshacer la vuelve a abrir. */
 public class CerrarPuertaComando implements Comando {
