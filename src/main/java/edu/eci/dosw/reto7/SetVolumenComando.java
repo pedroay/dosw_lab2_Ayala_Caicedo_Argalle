@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /**
  * Comando concreto con parametro: fija el volumen del sistema de musica.

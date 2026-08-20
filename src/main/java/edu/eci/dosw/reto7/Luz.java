@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Receiver: una luz del hogar, con estado encendido/apagado. */
 public class Luz implements Dispositivo {

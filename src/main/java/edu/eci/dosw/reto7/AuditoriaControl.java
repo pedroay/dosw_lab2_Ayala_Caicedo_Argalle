@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 import java.util.LinkedHashMap;
 import java.util.List;

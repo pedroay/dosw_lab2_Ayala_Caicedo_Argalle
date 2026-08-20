@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Receiver: una persiana/ventana con posicion (0=cerrada, 100=abierta). */
 public class Persiana implements Dispositivo {

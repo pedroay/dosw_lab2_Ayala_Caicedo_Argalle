@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 import java.util.ArrayList;
 import java.util.Collections;

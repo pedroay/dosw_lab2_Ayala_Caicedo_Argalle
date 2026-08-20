@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Receiver: un sistema de musica con volumen (0-100). */
 public class SistemaMusica implements Dispositivo {

@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Receiver: una puerta del hogar, con estado abierta/cerrada. */
 public class Puerta implements Dispositivo {

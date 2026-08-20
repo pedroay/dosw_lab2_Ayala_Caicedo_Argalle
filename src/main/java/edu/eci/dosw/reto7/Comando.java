@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /**
  * Contrato del patron Command. Cada accion del control remoto se

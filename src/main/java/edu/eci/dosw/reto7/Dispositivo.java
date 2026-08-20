@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /**
  * Contrato minimo que deben cumplir todos los dispositivos del hogar.

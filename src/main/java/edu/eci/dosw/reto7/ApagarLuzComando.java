@@ -1,4 +1,4 @@
-package reto7;
+package edu.eci.dosw.reto7;
 
 /** Comando concreto: apaga una luz. Deshacer la vuelve a encender. */
 public class ApagarLuzComando implements Comando {
