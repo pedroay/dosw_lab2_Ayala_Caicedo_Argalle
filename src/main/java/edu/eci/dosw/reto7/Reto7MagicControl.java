@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class Reto7MagicControl {
 
-    public static void main(String[] args) {
+    public static void run() {
         Scanner sc = new Scanner(System.in);
 
         Luz luzSala = new Luz("Luz sala");
@@ -23,15 +23,22 @@ public class Reto7MagicControl {
         registrarAcciones(sc, control, luzSala, puertaPrincipal, musica, persianaVentana);
         permitirDeshacer(sc, control);
 
-        System.out.println("\n===== ESTADO FINAL DE LOS DISPOSITIVOS =====");
-        System.out.println("  " + luzSala);
-        System.out.println("  " + puertaPrincipal);
-        System.out.println("  " + musica);
-        System.out.println("  " + persianaVentana);
+        imprimirEstadoDispositivos(luzSala, puertaPrincipal, musica, persianaVentana);
 
         new AuditoriaControl(control.getHistorial()).imprimirResumen();
 
         sc.close();
+    }
+
+    /** 
+     * Método automatizado para imprimir el estado de cualquier cantidad de dispositivos.
+     * Utiliza varargs (Object...) para recibir los objetos sin importar cuántos sean.
+     */
+    private static void imprimirEstadoDispositivos(Object... dispositivos) {
+        System.out.println("\n===== ESTADO FINAL DE LOS DISPOSITIVOS =====");
+        for (Object dispositivo : dispositivos) {
+            System.out.println("  " + dispositivo);
+        }
     }
 
     /** Bucle principal: permite ejecutar cualquier cantidad de acciones. */
