@@ -1,4 +1,4 @@
-package reto6;
+package edu.eci.dosw.reto6;
 
 import java.util.List;
 import java.util.Map;
@@ -9,14 +9,17 @@ import java.util.stream.Collectors;
  */
 public class EstadisticasTickets {
     private final List<Ticket> tickets;
+
     public EstadisticasTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
     /** Cantidad de tickets agrupados por nivel de dificultad. */
     public Map<Dificultad, Long> ticketsPorNivel() {
         return tickets.stream()
                 .collect(Collectors.groupingBy(Ticket::getDificultad, Collectors.counting()));
     }
+
     /** Cantidad total de tickets resueltos. */
     public long totalResueltos() {
         return tickets.stream()
@@ -53,8 +56,7 @@ public class EstadisticasTickets {
         System.out.println("Total de tickets: " + tickets.size());
 
         System.out.println("\nTickets por nivel de dificultad:");
-        ticketsPorNivel().forEach((nivel, cantidad) ->
-                System.out.printf("  - %-11s: %d%n", nivel, cantidad));
+        ticketsPorNivel().forEach((nivel, cantidad) -> System.out.printf("  - %-11s: %d%n", nivel, cantidad));
 
         System.out.println("\nTickets resueltos: " + totalResueltos());
         System.out.println("Tickets pendientes de escalacion: " + totalPendientes());
@@ -64,8 +66,7 @@ public class EstadisticasTickets {
         if (porTecnico.isEmpty()) {
             System.out.println("  (ningun ticket fue resuelto)");
         } else {
-            porTecnico.forEach((tecnico, cantidad) ->
-                    System.out.printf("  - %-10s: %d%n", tecnico, cantidad));
+            porTecnico.forEach((tecnico, cantidad) -> System.out.printf("  - %-10s: %d%n", tecnico, cantidad));
         }
 
         System.out.printf("%nPromedio de prioridad de tickets resueltos: %.2f%n", promedioPrioridadResueltos());

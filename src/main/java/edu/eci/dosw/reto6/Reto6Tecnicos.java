@@ -1,4 +1,4 @@
-package reto6;
+package edu.eci.dosw.reto6;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.Scanner;
  * captura tickets ingresados por el usuario y muestra el resultado del
  * procesamiento junto con las estadisticas finales.
  */
-public class Main {
+public class Reto6Tecnicos {
 
-    public static void main(String[] args) {
+    public static void run() {
         Scanner sc = new Scanner(System.in);
         Tecnico primero = construirCadena();
         List<Ticket> tickets = leerTickets(sc);
@@ -40,12 +40,12 @@ public class Main {
      * experiencia.
      */
     private static Tecnico construirCadena() {
-        Tecnico ana =new Tecnico("Ana",Dificultad.BASICO, Prioridad.BAJA);
-        Tecnico luis = new Tecnico("Luis", Dificultad.BASICO,Prioridad.MEDIA);
-        Tecnico alfonso = new Tecnico("alfonso", Dificultad.BASICO,Prioridad.ALTA);
-        Tecnico carla=new Tecnico("Carla",Dificultad.INTERMEDIO,Prioridad.MEDIA);
-        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIO,Prioridad.ALTA);
-        Tecnico sofia = new Tecnico("Sofia",Dificultad.AVANZADO, Prioridad.ALTA);
+        Tecnico ana = new Tecnico("Ana", Dificultad.BASICO, Prioridad.BAJA);
+        Tecnico luis = new Tecnico("Luis", Dificultad.BASICO, Prioridad.MEDIA);
+        Tecnico alfonso = new Tecnico("alfonso", Dificultad.BASICO, Prioridad.ALTA);
+        Tecnico carla = new Tecnico("Carla", Dificultad.INTERMEDIO, Prioridad.MEDIA);
+        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIO, Prioridad.ALTA);
+        Tecnico sofia = new Tecnico("Sofia", Dificultad.AVANZADO, Prioridad.ALTA);
 
         ana.setSiguiente(luis);
         luis.setSiguiente(alfonso);
@@ -65,7 +65,8 @@ public class Main {
         while (actual != null) {
             sb.append(actual);
             actual = actual.getSiguiente();
-            if (actual != null) sb.append(" -> ");
+            if (actual != null)
+                sb.append(" -> ");
         }
         System.out.println(sb);
     }
@@ -97,9 +98,12 @@ public class Main {
             System.out.print("Dificultad [1=BASICO, 2=INTERMEDIO, 3=AVANZADO]: ");
             String entrada = sc.nextLine().trim();
             switch (entrada) {
-                case "1": return Dificultad.BASICO;
-                case "2": return Dificultad.INTERMEDIO;
-                case "3": return Dificultad.AVANZADO;
+                case "1":
+                    return Dificultad.BASICO;
+                case "2":
+                    return Dificultad.INTERMEDIO;
+                case "3":
+                    return Dificultad.AVANZADO;
                 default:
                     System.out.println("Opcion invalida. Ingrese 1, 2 o 3.");
             }
@@ -111,9 +115,12 @@ public class Main {
             System.out.print("Prioridad [1=BAJA, 2=MEDIA, 3=ALTA]: ");
             String entrada = sc.nextLine().trim();
             switch (entrada) {
-                case "1": return Prioridad.BAJA;
-                case "2": return Prioridad.MEDIA;
-                case "3": return Prioridad.ALTA;
+                case "1":
+                    return Prioridad.BAJA;
+                case "2":
+                    return Prioridad.MEDIA;
+                case "3":
+                    return Prioridad.ALTA;
                 default:
                     System.out.println("Opcion invalida. Ingrese 1, 2 o 3.");
             }

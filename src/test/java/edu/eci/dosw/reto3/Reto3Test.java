@@ -1,4 +1,4 @@
-package test.java.edu.eci.dosw.reto3;
+package edu.eci.dosw.reto3;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
