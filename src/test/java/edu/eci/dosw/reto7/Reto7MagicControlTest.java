@@ -20,130 +20,130 @@ class Reto7MagicControlTest {
 
     @BeforeEach
     void setUp() {
-        // Redirigir la salida estándar para capturar lo que imprime el programa
+        // Redirect standard output to capture what the program prints
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
     }
 
     @AfterEach
     void tearDown() {
-        // Restaurar la consola a su estado original después de cada prueba
+        // Restore console to its original state after each test
         System.setIn(standardIn);
         System.setOut(standardOut);
     }
 
     /**
-     * Método auxiliar para simular que el usuario escribe en la consola.
+     * Helper method to simulate user typing in the console.
      */
-    private void simularEntradaUsuario(String datos) {
-        ByteArrayInputStream testIn = new ByteArrayInputStream(datos.getBytes());
+    private void simulateUserInput(String data) {
+        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
         System.setIn(testIn);
     }
 
     /**
-     * Método auxiliar para obtener todo lo que el programa imprimió.
+     * Helper method to get everything the program printed.
      */
-    private String obtenerSalidaConsola() {
+    private String getConsoleOutput() {
         return testOut.toString();
     }
 
     // -----------------------------------------------------------------
-    // Pruebas de validación de entradas
+    // Input validation tests
     // -----------------------------------------------------------------
 
     @Test
-    @DisplayName("Si el usuario escribe 'salir' inmediatamente, el programa pasa al estado final y termina")
-    void testSalirInmediatamente() {
-        // Entrada: "salir" en la primera pregunta
-        simularEntradaUsuario("salir\n");
+    @DisplayName("If the user types 'exit' immediately, the program goes to the final state and ends")
+    void testExitImmediately() {
+        // Input: "exit" in the first question
+        simulateUserInput("exit\n");
         
         try {
             Reto7MagicControl.run();
         } catch (Exception e) {
         }
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("===== ESTADO FINAL DE LOS DISPOSITIVOS ====="),
-                "Debe imprimir el estado final antes de terminar.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("===== FINAL DEVICE STATE ====="),
+                "It should print the final state before ending.");
     }
 
     @Test
-    @DisplayName("El sistema debe rechazar un nombre de usuario vacío")
-    void testUsuarioVacio() {
-        simularEntradaUsuario("\nsalir\n");
+    @DisplayName("The system must reject an empty user name")
+    void testEmptyUser() {
+        simulateUserInput("\nexit\n");
         
         try {
             Reto7MagicControl.run();
         } catch (Exception e) {}
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("El usuario no puede estar vacio."),
-                "Debe advertir al usuario que ingrese un nombre válido.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("The user cannot be empty."),
+                "It should warn the user to enter a valid name.");
     }
 
     @Test
-    @DisplayName("Si se ingresa un número de dispositivo inválido, muestra error y vuelve a preguntar")
-    void testOpcionDispositivoInvalida() {
-        simularEntradaUsuario("Juan\n9\nsalir\nno\n");
+    @DisplayName("If an invalid device number is entered, it shows an error and asks again")
+    void testInvalidDeviceOption() {
+        simulateUserInput("Juan\n9\nexit\nno\n");
         
         try {
             Reto7MagicControl.run();
         } catch (Exception e) {}
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("Opcion invalida."),
-                "Debe mostrar 'Opcion invalida.' al ingresar un dispositivo que no existe.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("Invalid option."),
+                "It should show 'Invalid option.' when entering a device that does not exist.");
     }
 
     @Test
-    @DisplayName("Validar que pedirEntero capture el error si se ingresan letras en lugar de números")
-    void testEntradaLetrasEnVezDeNumero() {
-        // Entrada: 
-        // - "Maria" (Usuario)
-        // - "3" (Música)
-        // - "abc" (Volumen inválido) -> "50" (Volumen válido)
-        // - "salir" (Salir de acciones)
-        // - "no" (No deshacer)
-        simularEntradaUsuario("Maria\n3\nabc\n50\nsalir\nno\n");
+    @DisplayName("Validate that askInteger catches the error if letters are entered instead of numbers")
+    void testLettersInputInsteadOfNumber() {
+        // Input: 
+        // - "Maria" (User)
+        // - "3" (Music)
+        // - "abc" (Invalid volume) -> "50" (Valid volume)
+        // - "exit" (Exit actions)
+        // - "no" (No undo)
+        simulateUserInput("Maria\n3\nabc\n50\nexit\nno\n");
         
         try {
             Reto7MagicControl.run();
         } catch (Exception e) {}
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("Ingrese un numero valido."),
-                "Debe atrapar el NumberFormatException y pedir el número nuevamente.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("Enter a valid number."),
+                "It should catch the NumberFormatException and ask for the number again.");
     }
 
     // -----------------------------------------------------------------
-    // Pruebas de Flujo Completo (Acciones y Deshacer)
+    // Full Flow Tests (Actions and Undo)
     // -----------------------------------------------------------------
 
     @Test
-    @DisplayName("El sistema permite ejecutar una acción, deshacerla, y muestra el resumen correctamente")
-    void testFlujoCompletoEjecutarYDeshacer() {
-        // Entrada:
-        // - "Pedro" (Usuario)
-        // - "1" (Dispositivo: Luz)
-        // - "1" (Acción: Encender)
-        // - "salir" (Terminar acciones)
-        // - "1" (Deshacer la acción 1)
-        // - "no" (Terminar deshacer)
-        String entrada = "Pedro\n1\n1\nsalir\n1\nno\n";
-        simularEntradaUsuario(entrada);
+    @DisplayName("The system allows executing an action, undoing it, and shows the summary correctly")
+    void testFullFlowExecuteAndUndo() {
+        // Input:
+        // - "Pedro" (User)
+        // - "1" (Device: Light)
+        // - "1" (Action: Turn on)
+        // - "exit" (Finish actions)
+        // - "1" (Undo action 1)
+        // - "no" (Finish undo)
+        String input = "Pedro\n1\n1\nexit\n1\nno\n";
+        simulateUserInput(input);
 
         try {
             Reto7MagicControl.run();
         } catch (Exception e) {}
 
-        String consola = obtenerSalidaConsola();
+        String console = getConsoleOutput();
         
-        assertTrue(consola.contains("===== CONTROL REMOTO MAGICO ====="), "Debe iniciar el control mágico.");
-        assertTrue(consola.contains("-> Ejecutado:"), "Debe confirmar que el comando se ejecutó.");
+        assertTrue(console.contains("===== MAGIC REMOTE CONTROL ====="), "It should start the magic control.");
+        assertTrue(console.contains("-> Executed:"), "It should confirm that the command was executed.");
         
-        assertTrue(consola.contains("===== DESHACER ACCIONES ====="), "Debe entrar al menú de deshacer.");
-        assertTrue(consola.contains("-> Accion 1 deshecha."), "Debe confirmar que la acción fue deshecha.");
+        assertTrue(console.contains("===== UNDO ACTIONS ====="), "It should enter the undo menu.");
+        assertTrue(console.contains("-> Action 1 undone."), "It should confirm that the action was undone.");
         
-        assertTrue(consola.contains("===== ESTADO FINAL DE LOS DISPOSITIVOS ====="), "Debe imprimir el estado final.");
+        assertTrue(console.contains("===== FINAL DEVICE STATE ====="), "It should print the final state.");
     }
 }

@@ -1,34 +1,34 @@
 package edu.eci.dosw.reto7;
 
-/** Receiver: una puerta del hogar, con estado abierta/cerrada. */
+/** Receiver: a home door, with opened/closed state. */
 public class Puerta implements Dispositivo {
 
-    private final String nombre;
-    private boolean abierta;
+    private final String name;
+    private boolean opened;
 
-    public Puerta(String nombre) {
-        this.nombre = nombre;
+    public Puerta(String name) {
+        this.name = name;
     }
 
-    public void abrir() {
-        this.abierta = true;
+    public void open() {
+        this.opened = true;
     }
 
-    public void cerrar() {
-        this.abierta = false;
+    public void close() {
+        this.opened = false;
     }
 
-    public boolean isAbierta() {
-        return abierta;
+    public boolean isOpen() {
+        return opened;
     }
 
     @Override
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return nombre + " [" + (abierta ? "ABIERTA" : "CERRADA") + "]";
+        return name + " [" + (opened ? "OPENED" : "CLOSED") + "]";
     }
 }

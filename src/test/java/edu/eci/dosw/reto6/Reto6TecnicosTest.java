@@ -32,112 +32,112 @@ class Reto6TecnicosTest {
     }
 
     /**
-     * Método auxiliar para simular que el usuario escribe en la consola.
+     * Helper method to simulate user writing in the console.
      */
-    private void simularEntradaUsuario(String datos) {
-        ByteArrayInputStream testIn = new ByteArrayInputStream(datos.getBytes());
+    private void simulateUserInput(String data) {
+        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
         System.setIn(testIn);
     }
 
     /**
-     * Método auxiliar para obtener todo lo que el programa imprimió en consola.
+     * Helper method to get everything the program printed to the console.
      */
-    private String obtenerSalidaConsola() {
+    private String getConsoleOutput() {
         return testOut.toString();
     }
 
 
     @Test
-    @DisplayName("La cadena de técnicos debe estar configurada en el orden correcto de escalamiento")
-    void testConstruirCadenaOrdenCorrecto() throws Exception {
-        Method metodoConstruir = Reto6Tecnicos.class.getDeclaredMethod("construirCadena");
-        metodoConstruir.setAccessible(true);
-        Tecnico actual = (Tecnico) metodoConstruir.invoke(null);
+    @DisplayName("The technician chain must be configured in the correct escalation order")
+    void testBuildChainCorrectOrder() throws Exception {
+        Method buildMethod = Reto6Tecnicos.class.getDeclaredMethod("buildChain");
+        buildMethod.setAccessible(true);
+        Tecnico current = (Tecnico) buildMethod.invoke(null);
 
-        assertNotNull(actual, "El primer técnico (Ana) no debe ser nulo");
-        String[] ordenEsperado = {"Ana", "Luis", "alfonso", "Carla", "Jorge", "Sofia"};
+        assertNotNull(current, "The first technician (Ana) must not be null");
+        String[] expectedOrder = {"Ana", "Luis", "alfonso", "Carla", "Jorge", "Sofia"};
 
-        for (String nombre : ordenEsperado) {
-            assertNotNull(actual, "La cadena se rompió prematuramente, se esperaba a: " + nombre);
+        for (String name : expectedOrder) {
+            assertNotNull(current, "The chain broke prematurely, expected: " + name);
         
-            String tecnicoStr = actual.toString();
-            assertTrue(tecnicoStr.contains(nombre) || tecnicoStr.contains(nombre.toLowerCase()), 
-                "El técnico actual debería ser " + nombre);
+            String technicianStr = current.toString();
+            assertTrue(technicianStr.contains(name) || technicianStr.contains(name.toLowerCase()), 
+                "The current technician should be " + name);
             
-            actual = actual.getSiguiente();
+            current = current.getNext();
         }
         
-        assertNull(actual, "La cadena debe terminar (ser null) después del último técnico (Sofia)");
+        assertNull(current, "The chain must end (be null) after the last technician (Sofia)");
     }
 
     // -----------------------------------------------------------------
-    // Interacción por consola (Simulación de usuario)
+    // Console Interaction (User Simulation)
     // -----------------------------------------------------------------
 
     @Test
-    @DisplayName("Si el usuario escribe 'salir' sin ingresar tickets, el programa termina correctamente")
-    void testSalirInmediatamente() {
-        simularEntradaUsuario("salir\n");
+    @DisplayName("If the user types 'exit' without entering tickets, the program ends correctly")
+    void testExitImmediately() {
+        simulateUserInput("exit\n");
         Reto6Tecnicos.run();
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("No se ingreso ningun ticket. Fin del programa."),
-                "Debe indicar que no se ingresaron tickets e interrumpir el flujo.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("No tickets were entered. End of program."),
+                "Should indicate that no tickets were entered and interrupt the flow.");
     }
 
     @Test
-    @DisplayName("El sistema debe rechazar descripciones vacías e iterar de nuevo")
-    void testTicketDescripcionVacia() {
-        simularEntradaUsuario("\nsalir\n"); 
+    @DisplayName("The system must reject empty descriptions and iterate again")
+    void testTicketEmptyDescription() {
+        simulateUserInput("\nexit\n"); 
         Reto6Tecnicos.run();
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("La descripcion no puede estar vacia."),
-                "Debe advertir al usuario que no puede dejar la descripción en blanco.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("The description cannot be empty."),
+                "Should warn the user that the description cannot be left blank.");
     }
 
     @Test
-    @DisplayName("Si el usuario ingresa una dificultad o prioridad inválida, el sistema exige un número válido")
-    void testOpcionesInvalidasEnDificultadYPrioridad() {
-        // Entradas:
+    @DisplayName("If the user enters an invalid difficulty or priority, the system requires a valid number")
+    void testInvalidOptionsInDifficultyAndPriority() {
+        // Inputs:
         // - "Mi PC falla"
-        // - Dificultad: "9" (Inválida) -> Luego "1" (Válida)
-        // - Prioridad: "A" (Inválida) -> Luego "2" (Válida)
-        // - "salir"
-        String entrada = "Mi PC falla\n9\n1\nA\n2\nsalir\n";
-        simularEntradaUsuario(entrada);
+        // - Difficulty: "9" (Invalid) -> Then "1" (Valid)
+        // - Priority: "A" (Invalid) -> Then "2" (Valid)
+        // - "exit"
+        String input = "Mi PC falla\n9\n1\nA\n2\nexit\n";
+        simulateUserInput(input);
 
         try {
             Reto6Tecnicos.run();
         } catch (Exception e) {
         }
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("Opcion invalida"),
-                "Debe advertir 'Opcion invalida' cuando se meten valores fuera del 1, 2 o 3.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("Invalid option"),
+                "Should warn 'Invalid option' when entering values outside of 1, 2, or 3.");
     }
 
     // -----------------------------------------------------------------
-    // Flujo Completo
+    // Complete Flow
     // -----------------------------------------------------------------
 
     @Test
-    @DisplayName("El sistema permite registrar un ticket válido, procesarlo y mostrar resultados")
-    void testFlujoCompletoConUnTicket() {
-        String entrada = "Pantalla azul\n2\n3\nsalir\n";
-        simularEntradaUsuario(entrada);
+    @DisplayName("The system allows registering a valid ticket, processing it, and showing results")
+    void testCompleteFlowWithOneTicket() {
+        String input = "Pantalla azul\n2\n3\nexit\n";
+        simulateUserInput(input);
 
         try {
             Reto6Tecnicos.run();
         } catch (Exception e) {
         }
 
-        String consola = obtenerSalidaConsola();
-        assertTrue(consola.contains("===== PROCESANDO TICKETS ====="), 
-                "Debe llegar a la fase de procesamiento.");
-        assertTrue(consola.contains("Pantalla azul"), 
-                "Debe mostrar el nombre del ticket al procesarlo.");
-        assertTrue(consola.contains("===== RESULTADO FINAL ====="), 
-                "Debe imprimir el resultado final del procesamiento.");
+        String console = getConsoleOutput();
+        assertTrue(console.contains("===== PROCESSING TICKETS ====="), 
+                "Should reach the processing phase.");
+        assertTrue(console.contains("Pantalla azul"), 
+                "Should display the ticket name when processing it.");
+        assertTrue(console.contains("===== FINAL RESULT ====="), 
+                "Should print the final result of processing.");
     }
 }

@@ -1,78 +1,78 @@
 package edu.eci.dosw.reto6;
 
 /**
- * Handler del patron Chain of Responsibility.
+ * Handler for the Chain of Responsibility pattern.
  *
- * Cada Tecnico tiene una especialidad (el nivel de dificultad que domina)
- * y una prioridad maxima que es capaz de atender. Si el ticket no encaja
- * con su especialidad o supera la prioridad que puede manejar, lo pasa
- * al siguiente eslabon de la cadena. Si ningun tecnico de la cadena puede
- * resolverlo, el propio ticket queda marcado como pendiente de escalacion.
+ * Each Technician has a specialty (the difficulty level they master)
+ * and a maximum priority they are able to handle. If the ticket does not fit
+ * with their specialty or exceeds the priority they can manage, they pass it
+ * to the next link in the chain. If no technician in the chain can
+ * resolve it, the ticket itself is marked as pending escalation.
  */
 public class Tecnico {
-    private final String nombre;
-    private final Dificultad especialidad;
-    private final Prioridad prioridadMaxima;
-    private Tecnico siguiente;
+    private final String name;
+    private final Dificultad specialty;
+    private final Prioridad maxPriority;
+    private Tecnico next;
 
-    public Tecnico(String nombre, Dificultad especialidad, Prioridad prioridadMaxima) {
-        this.nombre = nombre;
-        this.especialidad = especialidad;
-        this.prioridadMaxima = prioridadMaxima;
+    public Tecnico(String name, Dificultad specialty, Prioridad maxPriority) {
+        this.name = name;
+        this.specialty = specialty;
+        this.maxPriority = maxPriority;
     }
 
     /**
-     * Enlaza el siguiente tecnico en la cadena y lo devuelve, para poder encadenar
-     * llamadas.
+     * Links the next technician in the chain and returns it, to be able to chain
+     * calls.
      */
-    public Tecnico setSiguiente(Tecnico siguiente) {
-        this.siguiente = siguiente;
-        return siguiente;
+    public Tecnico setNext(Tecnico next) {
+        this.next = next;
+        return next;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    /* Retorna el siguiente tecnico en la cadena, o null si es el ultimo. */
-    public Tecnico getSiguiente() {
-        return siguiente;
+    /* Returns the next technician in the chain, or null if it is the last one. */
+    public Tecnico getNext() {
+        return next;
     }
 
     /**
-     * Punto de entrada del patron: intenta resolver el ticket; si no puede,
-     * delega la responsabilidad al siguiente tecnico de la cadena.
+     * Entry point of the pattern: attempts to resolve the ticket; if they cannot,
+     * delegates the responsibility to the next technician in the chain.
      */
-    public void atender(Ticket ticket) {
-        if (puedeResolver(ticket)) {
-            resolver(ticket);
-        } else if (siguiente != null) {
-            System.out.printf("   %s no puede atender \"%s\" (requiere %s/%s) -> escalando...%n",
-                    nombre, ticket.getDescripcion(), ticket.getDificultad(), ticket.getPrioridad());
-            siguiente.atender(ticket);
+    public void handle(Ticket ticket) {
+        if (canResolve(ticket)) {
+            resolve(ticket);
+        } else if (next != null) {
+            System.out.printf("   %s cannot handle \"%s\" (requires %s/%s) -> escalating...%n",
+                    name, ticket.getDescription(), ticket.getDifficulty(), ticket.getPriority());
+            next.handle(ticket);
         } else {
-            ticket.marcarPendienteEscalacion();
-            System.out.printf("   %s no puede atender \"%s\" y no hay mas tecnicos en la cadena.%n",
-                    nombre, ticket.getDescripcion());
+            ticket.markPendingEscalation();
+            System.out.printf("   %s cannot handle \"%s\" and there are no more technicians in the chain.%n",
+                    name, ticket.getDescription());
         }
     }
 
     /**
-     * Un tecnico puede resolver el ticket si coincide su especialidad y la
-     * prioridad no supera su limite.
+     * A technician can resolve the ticket if their specialty matches and the
+     * priority does not exceed their limit.
      */
-    protected boolean puedeResolver(Ticket ticket) {
-        return ticket.getDificultad() == especialidad
-                && ticket.getPrioridad().getNivel() <= prioridadMaxima.getNivel();
+    protected boolean canResolve(Ticket ticket) {
+        return ticket.getDifficulty() == specialty
+                && ticket.getPriority().getLevel() <= maxPriority.getLevel();
     }
 
-    protected void resolver(Ticket ticket) {
-        ticket.marcarResuelto(nombre);
-        System.out.printf("   %s resolvio el ticket \"%s\".%n", nombre, ticket.getDescripcion());
+    protected void resolve(Ticket ticket) {
+        ticket.markResolved(name);
+        System.out.printf("   %s resolved the ticket \"%s\".%n", name, ticket.getDescription());
     }
 
     @Override
     public String toString() {
-        return String.format("%s (especialidad=%s, prioridad maxima=%s)", nombre, especialidad, prioridadMaxima);
+        return String.format("%s (specialty=%s, max priority=%s)", name, specialty, maxPriority);
     }
 }

@@ -6,70 +6,70 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Genera el resumen final y la evidencia de auditoria a partir del
- * historial de acciones del ControlRemoto, usando la API de Streams.
+ * Generates the final summary and audit evidence from the
+ * history of actions of the ControlRemoto, using the Streams API.
  */
 public class AuditoriaControl {
 
-    private final List<RegistroAccion> historial;
+    private final List<RegistroAccion> history;
 
-    public AuditoriaControl(List<RegistroAccion> historial) {
-        this.historial = historial;
+    public AuditoriaControl(List<RegistroAccion> history) {
+        this.history = history;
     }
 
-    /** Cantidad total de acciones ejecutadas (incluye las que luego fueron deshechas). */
-    public long totalEjecutadas() {
-        return historial.size();
+    /** Total amount of executed actions (includes those that were later undone). */
+    public long totalExecuted() {
+        return history.size();
     }
 
-    /** Cantidad de acciones que fueron deshechas. */
-    public long totalDeshechas() {
-        return historial.stream()
-                .filter(RegistroAccion::isDeshecha)
+    /** Amount of actions that were undone. */
+    public long totalUndone() {
+        return history.stream()
+                .filter(RegistroAccion::isUndone)
                 .count();
     }
 
-    /** Cantidad de acciones ejecutadas, agrupadas por usuario responsable. */
-    public Map<String, Long> accionesPorUsuario() {
-        return historial.stream()
-                .collect(Collectors.groupingBy(RegistroAccion::getUsuario, Collectors.counting()));
+    /** Amount of executed actions, grouped by responsible user. */
+    public Map<String, Long> actionsByUser() {
+        return history.stream()
+                .collect(Collectors.groupingBy(RegistroAccion::getUser, Collectors.counting()));
     }
 
     /**
-     * Ultimo usuario que modifico cada dispositivo mediante una accion
-     * vigente (no deshecha). Responde directamente "quien cambio cada
-     * dispositivo": al recorrer el historial en orden y sobrescribir por
-     * dispositivo, el ultimo valor que queda es siempre el mas reciente.
+     * Last user who modified each device through an active
+     * action (not undone). Directly answers "who changed each
+     * device": when traversing the history in order and overwriting by
+     * device, the last value left is always the most recent.
      */
-    public Map<String, String> ultimoResponsablePorDispositivo() {
-        Map<String, String> resultado = new LinkedHashMap<>();
-        historial.stream()
-                .filter(r -> !r.isDeshecha())
-                .forEach(r -> resultado.put(r.getComando().getDispositivo().getNombre(), r.getUsuario()));
-        return resultado;
+    public Map<String, String> lastResponsibleByDevice() {
+        Map<String, String> result = new LinkedHashMap<>();
+        history.stream()
+                .filter(r -> !r.isUndone())
+                .forEach(r -> result.put(r.getCommand().getDevice().getName(), r.getUser()));
+        return result;
     }
 
-    /** Imprime el resumen final legible en consola. */
-    public void imprimirResumen() {
-        System.out.println("\n===== RESUMEN FINAL =====");
+    /** Prints the readable final summary to console. */
+    public void printSummary() {
+        System.out.println("\n===== FINAL SUMMARY =====");
 
-        System.out.println("\nHistorial completo de acciones:");
-        historial.forEach(r -> System.out.println("  " + r));
+        System.out.println("\nComplete action history:");
+        history.forEach(r -> System.out.println("  " + r));
 
-        System.out.println("\nAcciones ejecutadas: " + totalEjecutadas());
-        System.out.println("Acciones deshechas: " + totalDeshechas());
+        System.out.println("\nExecuted actions: " + totalExecuted());
+        System.out.println("Undone actions: " + totalUndone());
 
-        System.out.println("\nAcciones por usuario:");
-        accionesPorUsuario().forEach((usuario, cantidad) ->
-                System.out.printf("  - %-10s: %d%n", usuario, cantidad));
+        System.out.println("\nActions by user:");
+        actionsByUser().forEach((user, amount) ->
+                System.out.printf("  - %-10s: %d%n", user, amount));
 
-        System.out.println("\nAuditoria - ultimo responsable por dispositivo:");
-        Map<String, String> porDispositivo = ultimoResponsablePorDispositivo();
-        if (porDispositivo.isEmpty()) {
-            System.out.println("  (ningun dispositivo tiene cambios vigentes)");
+        System.out.println("\nAudit - last responsible by device:");
+        Map<String, String> byDevice = lastResponsibleByDevice();
+        if (byDevice.isEmpty()) {
+            System.out.println("  (no device has active changes)");
         } else {
-            porDispositivo.forEach((dispositivo, usuario) ->
-                    System.out.printf("  - %-14s: %s%n", dispositivo, usuario));
+            byDevice.forEach((device, user) ->
+                    System.out.printf("  - %-14s: %s%n", device, user));
         }
         System.out.println("==========================");
     }

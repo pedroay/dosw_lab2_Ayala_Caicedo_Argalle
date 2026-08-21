@@ -5,124 +5,123 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Punto de entrada. Arma la cadena de tecnicos (Chain of Responsibility),
- * captura tickets ingresados por el usuario y muestra el resultado del
- * procesamiento junto con las estadisticas finales.
+ * Entry point. Builds the technician chain (Chain of Responsibility),
+ * captures tickets entered by the user and shows the processing result
+ * along with the final statistics.
  */
 public class Reto6Tecnicos {
 
     public static void run() {
         Scanner sc = new Scanner(System.in);
-        Tecnico primero = construirCadena();
-        List<Ticket> tickets = leerTickets(sc);
+        Tecnico first = buildChain();
+        List<Ticket> tickets = readTickets(sc);
         if (tickets.isEmpty()) {
-            System.out.println("No se ingreso ningun ticket. Fin del programa.");
+            System.out.println("No tickets were entered. End of program.");
             return;
         }
 
-        System.out.println("\n===== PROCESANDO TICKETS =====");
+        System.out.println("\n===== PROCESSING TICKETS =====");
         for (Ticket ticket : tickets) {
-            System.out.println("\nTicket: \"" + ticket.getDescripcion() + "\" ("
-                    + ticket.getDificultad() + " / " + ticket.getPrioridad() + ")");
-            primero.atender(ticket);
+            System.out.println("\nTicket: \"" + ticket.getDescription() + "\" ("
+                    + ticket.getDifficulty() + " / " + ticket.getPriority() + ")");
+            first.handle(ticket);
         }
 
-        System.out.println("\n===== RESULTADO FINAL =====");
+        System.out.println("\n===== FINAL RESULT =====");
         tickets.forEach(System.out::println);
-        new EstadisticasTickets(tickets).imprimirResumen();
+        new EstadisticasTickets(tickets).printSummary();
         sc.close();
     }
 
     /**
-     * Construye la cadena de tecnicos. El orden define la ruta de escalacion:
-     * primero se intenta con los tecnicos junior y, si no dan abasto por
-     * especialidad o por prioridad, el ticket sube hacia tecnicos con mas
-     * experiencia.
+     * Builds the technician chain. The order defines the escalation route:
+     * first it is attempted with junior technicians and, if they cannot cope
+     * by specialty or priority, the ticket goes up to more experienced technicians.
      */
-    private static Tecnico construirCadena() {
-        Tecnico ana = new Tecnico("Ana", Dificultad.BASICO, Prioridad.BAJA);
-        Tecnico luis = new Tecnico("Luis", Dificultad.BASICO, Prioridad.MEDIA);
-        Tecnico alfonso = new Tecnico("alfonso", Dificultad.BASICO, Prioridad.ALTA);
-        Tecnico carla = new Tecnico("Carla", Dificultad.INTERMEDIO, Prioridad.MEDIA);
-        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIO, Prioridad.ALTA);
-        Tecnico sofia = new Tecnico("Sofia", Dificultad.AVANZADO, Prioridad.ALTA);
+    private static Tecnico buildChain() {
+        Tecnico ana = new Tecnico("Ana", Dificultad.BASIC, Prioridad.LOW);
+        Tecnico luis = new Tecnico("Luis", Dificultad.BASIC, Prioridad.MEDIUM);
+        Tecnico alfonso = new Tecnico("alfonso", Dificultad.BASIC, Prioridad.HIGH);
+        Tecnico carla = new Tecnico("Carla", Dificultad.INTERMEDIATE, Prioridad.MEDIUM);
+        Tecnico jorge = new Tecnico("Jorge", Dificultad.INTERMEDIATE, Prioridad.HIGH);
+        Tecnico sofia = new Tecnico("Sofia", Dificultad.ADVANCED, Prioridad.HIGH);
 
-        ana.setSiguiente(luis);
-        luis.setSiguiente(alfonso);
-        alfonso.setSiguiente(carla);
-        carla.setSiguiente(jorge);
-        jorge.setSiguiente(sofia);
+        ana.setNext(luis);
+        luis.setNext(alfonso);
+        alfonso.setNext(carla);
+        carla.setNext(jorge);
+        jorge.setNext(sofia);
 
-        System.out.println("Cadena de soporte configurada:");
-        imprimirCadena(ana);
+        System.out.println("Configured support chain:");
+        printChain(ana);
         return ana;
     }
 
-    /** Imprime la cadena de tecnicos. */
-    private static void imprimirCadena(Tecnico primero) {
-        StringBuilder sb = new StringBuilder("Cadena de soporte configurada:\n  ");
-        Tecnico actual = primero;
-        while (actual != null) {
-            sb.append(actual);
-            actual = actual.getSiguiente();
-            if (actual != null)
+    /** Prints the technician chain. */
+    private static void printChain(Tecnico first) {
+        StringBuilder sb = new StringBuilder("Configured support chain:\n  ");
+        Tecnico current = first;
+        while (current != null) {
+            sb.append(current);
+            current = current.getNext();
+            if (current != null)
                 sb.append(" -> ");
         }
         System.out.println(sb);
     }
 
-    /** Lee un numero arbitrario de tickets desde la consola. */
-    private static List<Ticket> leerTickets(Scanner sc) {
+    /** Reads an arbitrary number of tickets from the console. */
+    private static List<Ticket> readTickets(Scanner sc) {
         List<Ticket> tickets = new ArrayList<>();
-        System.out.println("\n===== INGRESO DE TICKETS =====");
+        System.out.println("\n===== TICKET ENTRY =====");
         while (true) {
-            System.out.println("\n--- Nuevo ticket (" + (tickets.size() + 1) + ") ---");
-            System.out.print("Descripcion (o 'salir' para terminar): ");
-            String descripcion = sc.nextLine().trim();
-            if (descripcion.equalsIgnoreCase("salir")) {
+            System.out.println("\n--- New ticket (" + (tickets.size() + 1) + ") ---");
+            System.out.print("Description (or 'exit' to finish): ");
+            String description = sc.nextLine().trim();
+            if (description.equalsIgnoreCase("exit") || description.equalsIgnoreCase("salir")) {
                 break;
             }
-            if (descripcion.isEmpty()) {
-                System.out.println("La descripcion no puede estar vacia.");
+            if (description.isEmpty()) {
+                System.out.println("The description cannot be empty.");
                 continue;
             }
-            Dificultad dificultad = pedirDificultad(sc);
-            Prioridad prioridad = pedirPrioridad(sc);
-            tickets.add(new Ticket(descripcion, dificultad, prioridad));
+            Dificultad difficulty = askDifficulty(sc);
+            Prioridad priority = askPriority(sc);
+            tickets.add(new Ticket(description, difficulty, priority));
         }
         return tickets;
     }
 
-    private static Dificultad pedirDificultad(Scanner sc) {
+    private static Dificultad askDifficulty(Scanner sc) {
         while (true) {
-            System.out.print("Dificultad [1=BASICO, 2=INTERMEDIO, 3=AVANZADO]: ");
-            String entrada = sc.nextLine().trim();
-            switch (entrada) {
+            System.out.print("Difficulty [1=BASIC, 2=INTERMEDIATE, 3=ADVANCED]: ");
+            String input = sc.nextLine().trim();
+            switch (input) {
                 case "1":
-                    return Dificultad.BASICO;
+                    return Dificultad.BASIC;
                 case "2":
-                    return Dificultad.INTERMEDIO;
+                    return Dificultad.INTERMEDIATE;
                 case "3":
-                    return Dificultad.AVANZADO;
+                    return Dificultad.ADVANCED;
                 default:
-                    System.out.println("Opcion invalida. Ingrese 1, 2 o 3.");
+                    System.out.println("Invalid option. Enter 1, 2 or 3.");
             }
         }
     }
 
-    private static Prioridad pedirPrioridad(Scanner sc) {
+    private static Prioridad askPriority(Scanner sc) {
         while (true) {
-            System.out.print("Prioridad [1=BAJA, 2=MEDIA, 3=ALTA]: ");
-            String entrada = sc.nextLine().trim();
-            switch (entrada) {
+            System.out.print("Priority [1=LOW, 2=MEDIUM, 3=HIGH]: ");
+            String input = sc.nextLine().trim();
+            switch (input) {
                 case "1":
-                    return Prioridad.BAJA;
+                    return Prioridad.LOW;
                 case "2":
-                    return Prioridad.MEDIA;
+                    return Prioridad.MEDIUM;
                 case "3":
-                    return Prioridad.ALTA;
+                    return Prioridad.HIGH;
                 default:
-                    System.out.println("Opcion invalida. Ingrese 1, 2 o 3.");
+                    System.out.println("Invalid option. Enter 1, 2 or 3.");
             }
         }
     }

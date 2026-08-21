@@ -3,64 +3,64 @@ package edu.eci.dosw.reto6;
 import java.util.List;
 
 /**
- * Prioridad de un ticket. Igual que Dificultad, se implementa sin la
- * palabra clave "enum": es una clase con instancias fijas (BAJA, MEDIA,
- * ALTA) guardadas en una lista estatica, que se usa tanto para validar
- * el numero ingresado por consola como para comparar "quien puede
- * atender que" (getNivel()) y calcular el promedio de prioridad con
+ * Priority of a ticket. Just like Difficulty, it is implemented without the
+ * "enum" keyword: it is a class with fixed instances (LOW, MEDIUM,
+ * HIGH) stored in a static list, which is used both to validate
+ * the number entered by console and to compare "who can
+ * handle what" (getLevel()) and calculate the priority average with
  * Streams.
  */
 public class Prioridad {
 
-    public static final Prioridad BAJA = new Prioridad("BAJA", 1);
-    public static final Prioridad MEDIA = new Prioridad("MEDIA", 2);
-    public static final Prioridad ALTA = new Prioridad("ALTA", 3);
+    public static final Prioridad LOW = new Prioridad("LOW", 1);
+    public static final Prioridad MEDIUM = new Prioridad("MEDIUM", 2);
+    public static final Prioridad HIGH = new Prioridad("HIGH", 3);
 
-    private static final List<Prioridad> VALORES = List.of(BAJA, MEDIA, ALTA);
+    private static final List<Prioridad> VALUES = List.of(LOW, MEDIUM, HIGH);
 
-    private final String nombre;
-    private final int nivel;
+    private final String name;
+    private final int level;
 
-    private Prioridad(String nombre, int nivel) {
-        this.nombre = nombre;
-        this.nivel = nivel;
+    private Prioridad(String name, int level) {
+        this.name = name;
+        this.level = level;
     }
 
-    /** Todos los valores posibles de prioridad, en orden. */
-    public static List<Prioridad> valores() {
-        return VALORES;
-    }
-
-    /**
-     * Indica si el numero ingresado corresponde a una prioridad existente
-     * (1..VALORES.size()).
-     */
-    public static boolean existeNumero(int numero) {
-        return numero >= 1 && numero <= VALORES.size();
+    /** All possible priority values, in order. */
+    public static List<Prioridad> values() {
+        return VALUES;
     }
 
     /**
-     * Devuelve la Prioridad asociada a ese numero (1=BAJA, 2=MEDIA, 3=ALTA).
-     * Se debe validar antes con existeNumero(); si el numero no es valido, lanza
-     * excepcion.
+     * Indicates if the entered number corresponds to an existing priority
+     * (1..VALUES.size()).
      */
-    public static Prioridad desdeNumero(int numero) {
-        if (!existeNumero(numero)) {
-            throw new IllegalArgumentException("Numero de prioridad invalido: " + numero);
+    public static boolean numberExists(int number) {
+        return number >= 1 && number <= VALUES.size();
+    }
+
+    /**
+     * Returns the Priority associated with that number (1=LOW, 2=MEDIUM, 3=HIGH).
+     * Must be validated first with numberExists(); if the number is invalid, throws
+     * exception.
+     */
+    public static Prioridad fromNumber(int number) {
+        if (!numberExists(number)) {
+            throw new IllegalArgumentException("Invalid priority number: " + number);
         }
-        return VALORES.get(numero - 1);
+        return VALUES.get(number - 1);
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public int getNivel() {
-        return nivel;
+    public int getLevel() {
+        return level;
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return name;
     }
 }

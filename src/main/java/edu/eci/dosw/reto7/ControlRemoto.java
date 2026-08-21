@@ -5,42 +5,41 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Invoker del patron Command. No conoce los detalles de ningun
- * dispositivo: solo sabe que recibe un Comando y lo ejecuta o
- * deshace, delegando el "como" a cada comando concreto. Ademas
- * mantiene el historial completo de acciones para la auditoria.
+ * Invoker of the Command pattern. Does not know the details of any
+ * device: only knows that it receives a Command and executes or
+ * undoes it, delegating the "how" to each concrete command. Also
+ * maintains the complete history of actions for the audit.
  */
 public class ControlRemoto {
 
-    private final List<RegistroAccion> historial = new ArrayList<>();
+    private final List<RegistroAccion> history = new ArrayList<>();
 
-    /** Ejecuta un comando y deja constancia en el historial de quien lo ejecuto. */
-    public void ejecutarAccion(Comando comando, String usuario) {
-        comando.ejecutar();
-        historial.add(new RegistroAccion(comando, usuario));
+    /** Executes a command and leaves a record in the history of who executed it. */
+    public void executeAction(Comando command, String user) {
+        command.execute();
+        history.add(new RegistroAccion(command, user));
     }
 
     /**
-     * Deshace la accion registrada en la posicion indicada (1-based, tal
-     * como se le muestra al usuario). No se puede deshacer dos veces la
-     * misma accion.
+     * Undoes the action registered at the indicated position (1-based, as
+     * it is shown to the user). The same action cannot be undone twice.
      */
-    public boolean deshacerAccion(int numeroAccion) {
-        int indice = numeroAccion - 1;
-        if (indice < 0 || indice >= historial.size()) {
+    public boolean undoAction(int actionNumber) {
+        int index = actionNumber - 1;
+        if (index < 0 || index >= history.size()) {
             return false;
         }
-        RegistroAccion registro = historial.get(indice);
-        if (registro.isDeshecha()) {
+        RegistroAccion record = history.get(index);
+        if (record.isUndone()) {
             return false;
         }
-        registro.getComando().deshacer();
-        registro.marcarDeshecha();
+        record.getCommand().undo();
+        record.markUndone();
         return true;
     }
 
-    /** Historial completo, en orden de ejecucion, de solo lectura. */
-    public List<RegistroAccion> getHistorial() {
-        return Collections.unmodifiableList(historial);
+    /** Complete history, in order of execution, read-only. */
+    public List<RegistroAccion> getHistory() {
+        return Collections.unmodifiableList(history);
     }
 }

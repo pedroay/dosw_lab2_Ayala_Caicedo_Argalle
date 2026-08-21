@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Genera estadisticas sobre una lista de tickets usando la API de Streams.
+ * Generates statistics about a list of tickets using the Streams API.
  */
 public class EstadisticasTickets {
     private final List<Ticket> tickets;
@@ -14,62 +14,62 @@ public class EstadisticasTickets {
         this.tickets = tickets;
     }
 
-    /** Cantidad de tickets agrupados por nivel de dificultad. */
-    public Map<Dificultad, Long> ticketsPorNivel() {
+    /** Number of tickets grouped by difficulty level. */
+    public Map<Dificultad, Long> ticketsByLevel() {
         return tickets.stream()
-                .collect(Collectors.groupingBy(Ticket::getDificultad, Collectors.counting()));
+                .collect(Collectors.groupingBy(Ticket::getDifficulty, Collectors.counting()));
     }
 
-    /** Cantidad total de tickets resueltos. */
-    public long totalResueltos() {
+    /** Total number of resolved tickets. */
+    public long totalResolved() {
         return tickets.stream()
-                .filter(Ticket::isResuelto)
+                .filter(Ticket::isResolved)
                 .count();
     }
 
-    /** Cantidad total de tickets pendientes de escalacion. */
-    public long totalPendientes() {
+    /** Total number of tickets pending escalation. */
+    public long totalPending() {
         return tickets.stream()
-                .filter(t -> !t.isResuelto())
+                .filter(t -> !t.isResolved())
                 .count();
     }
 
-    /** Cantidad de tickets resueltos agrupados por tecnico. */
-    public Map<String, Long> resueltosPorTecnico() {
+    /** Number of resolved tickets grouped by technician. */
+    public Map<String, Long> resolvedByTechnician() {
         return tickets.stream()
-                .filter(Ticket::isResuelto)
-                .collect(Collectors.groupingBy(Ticket::getTecnicoResolutor, Collectors.counting()));
+                .filter(Ticket::isResolved)
+                .collect(Collectors.groupingBy(Ticket::getResolverTechnician, Collectors.counting()));
     }
 
-    /** Promedio de prioridad (1=BAJA, 2=MEDIA, 3=ALTA) de los tickets resueltos. */
-    public double promedioPrioridadResueltos() {
+    /** Priority average (1=LOW, 2=MEDIUM, 3=HIGH) of the resolved tickets. */
+    public double averagePriorityResolved() {
         return tickets.stream()
-                .filter(Ticket::isResuelto)
-                .mapToInt(t -> t.getPrioridad().getNivel())
+                .filter(Ticket::isResolved)
+                .mapToInt(t -> t.getPriority().getLevel())
                 .average()
                 .orElse(0.0);
     }
 
-    /** Imprime un resumen legible en consola. */
-    public void imprimirResumen() {
-        System.out.println("\n===== ESTADISTICAS =====");
-        System.out.println("Total de tickets: " + tickets.size());
+    /** Prints a readable summary to the console. */
+    public void printSummary() {
+        System.out.println("\n===== STATISTICS =====");
+        System.out.println("Total tickets: " + tickets.size());
 
-        System.out.println("\nTickets por nivel de dificultad:");
-        ticketsPorNivel().forEach((nivel, cantidad) -> System.out.printf("  - %-11s: %d%n", nivel, cantidad));
+        System.out.println("\nTickets by difficulty level:");
+        ticketsByLevel().forEach((level, quantity) -> System.out.printf("  - %-11s: %d%n", level, quantity));
 
-        System.out.println("\nTickets resueltos: " + totalResueltos());
-        System.out.println("Tickets pendientes de escalacion: " + totalPendientes());
+        System.out.println("\nResolved tickets: " + totalResolved());
+        System.out.println("Tickets pending escalation: " + totalPending());
 
-        System.out.println("\nResueltos por tecnico:");
-        Map<String, Long> porTecnico = resueltosPorTecnico();
-        if (porTecnico.isEmpty()) {
-            System.out.println("  (ningun ticket fue resuelto)");
+        System.out.println("\nResolved by technician:");
+        Map<String, Long> byTechnician = resolvedByTechnician();
+        if (byTechnician.isEmpty()) {
+            System.out.println("  (no tickets were resolved)");
         } else {
-            porTecnico.forEach((tecnico, cantidad) -> System.out.printf("  - %-10s: %d%n", tecnico, cantidad));
+            byTechnician.forEach((technician, quantity) -> System.out.printf("  - %-10s: %d%n", technician, quantity));
         }
 
-        System.out.printf("%nPromedio de prioridad de tickets resueltos: %.2f%n", promedioPrioridadResueltos());
+        System.out.printf("%nAverage priority of resolved tickets: %.2f%n", averagePriorityResolved());
         System.out.println("=========================");
     }
 }

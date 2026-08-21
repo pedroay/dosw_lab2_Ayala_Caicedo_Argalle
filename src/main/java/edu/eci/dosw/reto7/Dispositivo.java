@@ -1,12 +1,12 @@
 package edu.eci.dosw.reto7;
 
 /**
- * Contrato minimo que deben cumplir todos los dispositivos del hogar.
- * Se usa principalmente para poder identificar, en la auditoria,
- * a que dispositivo afecto cada comando (Dependency Inversion: el
- * historial y el resumen dependen de esta abstraccion, no de cada
- * dispositivo concreto).
+ * Minimum contract that all home devices must fulfill.
+ * Mainly used to identify, in the audit,
+ * which device each command affected (Dependency Inversion: the
+ * history and summary depend on this abstraction, not on each
+ * concrete device).
  */
 public interface Dispositivo {
-    String getNombre();
+    String getName();
 }

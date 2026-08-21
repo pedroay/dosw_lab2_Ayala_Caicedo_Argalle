@@ -3,10 +3,10 @@ package edu.eci.dosw.reto7;
 import java.util.Scanner;
 
 /**
- * Punto de entrada. Crea los dispositivos del hogar, deja que el
- * usuario ejecute cualquier cantidad de acciones sobre ellos a
- * traves del ControlRemoto (patron Command), permite deshacer
- * acciones puntuales y finalmente muestra el resumen de auditoria.
+ * Entry point. Creates the home devices, lets the
+ * user execute any number of actions on them through
+ * the ControlRemoto (Command pattern), allows undoing
+ * specific actions and finally shows the audit summary.
  */
 public class Reto7MagicControl {
 
@@ -20,136 +20,136 @@ public class Reto7MagicControl {
 
         ControlRemoto control = new ControlRemoto();
 
-        registrarAcciones(sc, control, luzSala, puertaPrincipal, musica, persianaVentana);
-        permitirDeshacer(sc, control);
+        registerActions(sc, control, luzSala, puertaPrincipal, musica, persianaVentana);
+        allowUndo(sc, control);
 
-        imprimirEstadoDispositivos(luzSala, puertaPrincipal, musica, persianaVentana);
+        printDeviceState(luzSala, puertaPrincipal, musica, persianaVentana);
 
-        new AuditoriaControl(control.getHistorial()).imprimirResumen();
+        new AuditoriaControl(control.getHistory()).printSummary();
 
         sc.close();
     }
 
     /** 
-     * Método automatizado para imprimir el estado de cualquier cantidad de dispositivos.
-     * Utiliza varargs (Object...) para recibir los objetos sin importar cuántos sean.
+     * Automated method to print the state of any number of devices.
+     * Uses varargs (Object...) to receive objects regardless of how many there are.
      */
-    private static void imprimirEstadoDispositivos(Object... dispositivos) {
-        System.out.println("\n===== ESTADO FINAL DE LOS DISPOSITIVOS =====");
-        for (Object dispositivo : dispositivos) {
-            System.out.println("  " + dispositivo);
+    private static void printDeviceState(Object... devices) {
+        System.out.println("\n===== FINAL DEVICE STATE =====");
+        for (Object device : devices) {
+            System.out.println("  " + device);
         }
     }
 
-    /** Bucle principal: permite ejecutar cualquier cantidad de acciones. */
-    private static void registrarAcciones(Scanner sc, ControlRemoto control,
-                                           Luz luz, Puerta puerta,
-                                           SistemaMusica musica, Persiana persiana) {
-        System.out.println("===== CONTROL REMOTO MAGICO =====");
-        int numero = 1;
+    /** Main loop: allows executing any number of actions. */
+    private static void registerActions(Scanner sc, ControlRemoto control,
+                                           Luz light, Puerta door,
+                                           SistemaMusica music, Persiana blind) {
+        System.out.println("===== MAGIC REMOTE CONTROL =====");
+        int number = 1;
         while (true) {
-            System.out.println("\n--- Accion " + numero + " ---");
-            System.out.print("Usuario (o 'salir' para terminar): ");
-            String usuario = sc.nextLine().trim();
+            System.out.println("\n--- Action " + number + " ---");
+            System.out.print("User (or 'exit' to finish): ");
+            String user = sc.nextLine().trim();
 
-            if (usuario.equalsIgnoreCase("salir")) {
+            if (user.equalsIgnoreCase("exit") || user.equalsIgnoreCase("salir")) {
                 break;
             }
-            if (usuario.isEmpty()) {
-                System.out.println("El usuario no puede estar vacio.");
+            if (user.isEmpty()) {
+                System.out.println("The user cannot be empty.");
                 continue;
             }
 
-            Comando comando = pedirComando(sc, luz, puerta, musica, persiana);
-            if (comando == null) {
-                continue; // opcion invalida, se vuelve a pedir en la siguiente vuelta
+            Comando command = askCommand(sc, light, door, music, blind);
+            if (command == null) {
+                continue; // invalid option, ask again in the next loop
             }
 
-            control.ejecutarAccion(comando, usuario);
-            System.out.println("   -> Ejecutado: " + comando.getDescripcion());
-            numero++;
+            control.executeAction(command, user);
+            System.out.println("   -> Executed: " + command.getDescription());
+            number++;
         }
     }
 
-    /** Pregunta dispositivo y accion, y arma el Comando concreto correspondiente. */
-    private static Comando pedirComando(Scanner sc, Luz luz, Puerta puerta,
-                                         SistemaMusica musica, Persiana persiana) {
-        System.out.println("Dispositivo: [1] Luz  [2] Puerta  [3] Musica  [4] Persiana");
-        System.out.print("Opcion: ");
-        String dispositivo = sc.nextLine().trim();
+    /** Asks device and action, and builds the corresponding concrete Command. */
+    private static Comando askCommand(Scanner sc, Luz light, Puerta door,
+                                         SistemaMusica music, Persiana blind) {
+        System.out.println("Device: [1] Light  [2] Door  [3] Music  [4] Blind");
+        System.out.print("Option: ");
+        String device = sc.nextLine().trim();
 
-        switch (dispositivo) {
+        switch (device) {
             case "1":
-                System.out.print("Accion: [1] Encender  [2] Apagar: ");
-                String accionLuz = sc.nextLine().trim();
-                if (accionLuz.equals("1")) return new EncenderLuzComando(luz);
-                if (accionLuz.equals("2")) return new ApagarLuzComando(luz);
-                System.out.println("Opcion invalida.");
+                System.out.print("Action: [1] Turn on  [2] Turn off: ");
+                String actionLight = sc.nextLine().trim();
+                if (actionLight.equals("1")) return new EncenderLuzComando(light);
+                if (actionLight.equals("2")) return new ApagarLuzComando(light);
+                System.out.println("Invalid option.");
                 return null;
 
             case "2":
-                System.out.print("Accion: [1] Abrir  [2] Cerrar: ");
-                String accionPuerta = sc.nextLine().trim();
-                if (accionPuerta.equals("1")) return new AbrirPuertaComando(puerta);
-                if (accionPuerta.equals("2")) return new CerrarPuertaComando(puerta);
-                System.out.println("Opcion invalida.");
+                System.out.print("Action: [1] Open  [2] Close: ");
+                String actionDoor = sc.nextLine().trim();
+                if (actionDoor.equals("1")) return new AbrirPuertaComando(door);
+                if (actionDoor.equals("2")) return new CerrarPuertaComando(door);
+                System.out.println("Invalid option.");
                 return null;
 
             case "3":
-                int volumen = pedirEntero(sc, "Nuevo volumen (0-100): ");
-                return new SetVolumenComando(musica, volumen);
+                int volume = askInteger(sc, "New volume (0-100): ");
+                return new SetVolumenComando(music, volume);
 
             case "4":
-                int posicion = pedirEntero(sc, "Nueva posicion de la persiana (0-100): ");
-                return new AjustarPersianaComando(persiana, posicion);
+                int position = askInteger(sc, "New blind position (0-100): ");
+                return new AjustarPersianaComando(blind, position);
 
             default:
-                System.out.println("Opcion invalida.");
+                System.out.println("Invalid option.");
                 return null;
         }
     }
 
-    /** Permite deshacer cualquier cantidad de acciones, identificadas por su numero en el historial. */
-    private static void permitirDeshacer(Scanner sc, ControlRemoto control) {
-        if (control.getHistorial().isEmpty()) {
+    /** Allows undoing any number of actions, identified by their number in the history. */
+    private static void allowUndo(Scanner sc, ControlRemoto control) {
+        if (control.getHistory().isEmpty()) {
             return;
         }
 
-        System.out.println("\n===== DESHACER ACCIONES =====");
-        System.out.println("Historial actual:");
+        System.out.println("\n===== UNDO ACTIONS =====");
+        System.out.println("Current history:");
         int i = 1;
-        for (RegistroAccion registro : control.getHistorial()) {
-            System.out.println("  " + i + ". " + registro.getComando().getDescripcion()
-                    + " (usuario: " + registro.getUsuario() + ")");
+        for (RegistroAccion record : control.getHistory()) {
+            System.out.println("  " + i + ". " + record.getCommand().getDescription()
+                    + " (user: " + record.getUser() + ")");
             i++;
         }
 
         while (true) {
-            System.out.print("\nNumero de accion a deshacer (o 'no' para continuar): ");
-            String entrada = sc.nextLine().trim();
-            if (entrada.equalsIgnoreCase("no")) {
+            System.out.print("\nAction number to undo (or 'no' to continue): ");
+            String input = sc.nextLine().trim();
+            if (input.equalsIgnoreCase("no")) {
                 break;
             }
             try {
-                int numero = Integer.parseInt(entrada);
-                boolean exito = control.deshacerAccion(numero);
-                System.out.println(exito
-                        ? "   -> Accion " + numero + " deshecha."
-                        : "   -> No se pudo deshacer (numero invalido o ya estaba deshecha).");
+                int number = Integer.parseInt(input);
+                boolean success = control.undoAction(number);
+                System.out.println(success
+                        ? "   -> Action " + number + " undone."
+                        : "   -> Could not undo (invalid number or already undone).");
             } catch (NumberFormatException e) {
-                System.out.println("Entrada invalida. Ingrese un numero o 'no'.");
+                System.out.println("Invalid input. Enter a number or 'no'.");
             }
         }
     }
 
-    private static int pedirEntero(Scanner sc, String mensaje) {
+    private static int askInteger(Scanner sc, String message) {
         while (true) {
-            System.out.print(mensaje);
-            String entrada = sc.nextLine().trim();
+            System.out.print(message);
+            String input = sc.nextLine().trim();
             try {
-                return Integer.parseInt(entrada);
+                return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Ingrese un numero valido.");
+                System.out.println("Enter a valid number.");
             }
         }
     }

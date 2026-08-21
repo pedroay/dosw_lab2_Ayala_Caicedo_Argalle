@@ -1,34 +1,34 @@
 package edu.eci.dosw.reto7;
 
-/** Receiver: una luz del hogar, con estado encendido/apagado. */
+/** Receiver: a home light, with on/off state. */
 public class Luz implements Dispositivo {
 
-    private final String nombre;
-    private boolean encendida;
+    private final String name;
+    private boolean on;
 
-    public Luz(String nombre) {
-        this.nombre = nombre;
+    public Luz(String name) {
+        this.name = name;
     }
 
-    public void encender() {
-        this.encendida = true;
+    public void turnOn() {
+        this.on = true;
     }
 
-    public void apagar() {
-        this.encendida = false;
+    public void turnOff() {
+        this.on = false;
     }
 
-    public boolean isEncendida() {
-        return encendida;
+    public boolean isOn() {
+        return on;
     }
 
     @Override
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return nombre + " [" + (encendida ? "ENCENDIDA" : "APAGADA") + "]";
+        return name + " [" + (on ? "ON" : "OFF") + "]";
     }
 }

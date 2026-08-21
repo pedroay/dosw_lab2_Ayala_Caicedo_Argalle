@@ -3,44 +3,44 @@ package edu.eci.dosw.reto6;
 import java.util.List;
 
 public class Dificultad {
-    public static final Dificultad BASICO = new Dificultad("BASICO", 1);
-    public static final Dificultad INTERMEDIO = new Dificultad("INTERMEDIO", 2);
-    public static final Dificultad AVANZADO = new Dificultad("AVANZADO", 3);
+    public static final Dificultad BASIC = new Dificultad("BASIC", 1);
+    public static final Dificultad INTERMEDIATE = new Dificultad("INTERMEDIATE", 2);
+    public static final Dificultad ADVANCED = new Dificultad("ADVANCED", 3);
 
-    private static final List<Dificultad> VALORES = List.of(BASICO, INTERMEDIO, AVANZADO);
+    private static final List<Dificultad> VALUES = List.of(BASIC, INTERMEDIATE, ADVANCED);
 
-    private final String nombre;
-    private final int nivel;
+    private final String name;
+    private final int level;
 
-    private Dificultad(String nombre, int nivel) {
-        this.nombre = nombre;
-        this.nivel = nivel;
+    private Dificultad(String name, int level) {
+        this.name = name;
+        this.level = level;
     }
 
-    public static List<Dificultad> valores() {
-        return VALORES;
+    public static List<Dificultad> values() {
+        return VALUES;
     }
 
-    public static boolean existeNumero(int numero) {
-        return numero >= 1 && numero <= VALORES.size();
+    public static boolean numberExists(int number) {
+        return number >= 1 && number <= VALUES.size();
     }
 
-    public static Dificultad desdeNumero(int numero) {
-        if (!existeNumero(numero))
-            throw new IllegalArgumentException("Numero de dificultad invalido: " + numero);
-        return VALORES.get(numero - 1);
+    public static Dificultad fromNumber(int number) {
+        if (!numberExists(number))
+            throw new IllegalArgumentException("Invalid difficulty number: " + number);
+        return VALUES.get(number - 1);
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public int getNivel() {
-        return nivel;
+    public int getLevel() {
+        return level;
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return name;
     }
 }

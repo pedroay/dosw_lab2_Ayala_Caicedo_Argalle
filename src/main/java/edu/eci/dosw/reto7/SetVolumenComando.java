@@ -1,40 +1,40 @@
 package edu.eci.dosw.reto7;
 
 /**
- * Comando concreto con parametro: fija el volumen del sistema de musica.
- * Guarda el volumen anterior en el momento de ejecutar, para poder
- * restaurarlo exactamente al deshacer (no basta con "bajar" el volumen,
- * hay que volver al valor exacto que tenia antes).
+ * Concrete command with parameter: sets the volume of the music system.
+ * Saves the previous volume at the time of execution, to be able to
+ * restore it exactly when undoing (it is not enough to "lower" the volume,
+ * you have to return to the exact value it had before).
  */
 public class SetVolumenComando implements Comando {
 
-    private final SistemaMusica sistema;
-    private final int nuevoVolumen;
-    private int volumenAnterior;
+    private final SistemaMusica system;
+    private final int newVolume;
+    private int previousVolume;
 
-    public SetVolumenComando(SistemaMusica sistema, int nuevoVolumen) {
-        this.sistema = sistema;
-        this.nuevoVolumen = nuevoVolumen;
+    public SetVolumenComando(SistemaMusica system, int newVolume) {
+        this.system = system;
+        this.newVolume = newVolume;
     }
 
     @Override
-    public void ejecutar() {
-        this.volumenAnterior = sistema.getVolumen();
-        sistema.setVolumen(nuevoVolumen);
+    public void execute() {
+        this.previousVolume = system.getVolume();
+        system.setVolume(newVolume);
     }
 
     @Override
-    public void deshacer() {
-        sistema.setVolumen(volumenAnterior);
+    public void undo() {
+        system.setVolume(previousVolume);
     }
 
     @Override
-    public String getDescripcion() {
-        return "Fijar volumen de " + sistema.getNombre() + " en " + nuevoVolumen;
+    public String getDescription() {
+        return "Set volume of " + system.getName() + " to " + newVolume;
     }
 
     @Override
-    public Dispositivo getDispositivo() {
-        return sistema;
+    public Dispositivo getDevice() {
+        return system;
     }
 }

@@ -1,31 +1,31 @@
 package edu.eci.dosw.reto7;
 
-/** Comando concreto: cierra una puerta. Deshacer la vuelve a abrir. */
+/** Concrete command: closes a door. Undoing opens it again. */
 public class CerrarPuertaComando implements Comando {
 
-    private final Puerta puerta;
+    private final Puerta door;
 
-    public CerrarPuertaComando(Puerta puerta) {
-        this.puerta = puerta;
+    public CerrarPuertaComando(Puerta door) {
+        this.door = door;
     }
 
     @Override
-    public void ejecutar() {
-        puerta.cerrar();
+    public void execute() {
+        door.close();
     }
 
     @Override
-    public void deshacer() {
-        puerta.abrir();
+    public void undo() {
+        door.open();
     }
 
     @Override
-    public String getDescripcion() {
-        return "Cerrar " + puerta.getNombre();
+    public String getDescription() {
+        return "Close " + door.getName();
     }
 
     @Override
-    public Dispositivo getDispositivo() {
-        return puerta;
+    public Dispositivo getDevice() {
+        return door;
     }
 }

@@ -1,27 +1,27 @@
 package edu.eci.dosw.reto7;
 
 /**
- * Contrato del patron Command. Cada accion del control remoto se
- * encapsula como un Comando que sabe ejecutarse y deshacerse a si
- * mismo, y sabe describirse y decir a que dispositivo afecta
- * (necesario para la auditoria).
+ * Command pattern contract. Each remote control action is
+ * encapsulated as a Command that knows how to execute and undo itself,
+ * and knows how to describe itself and say which device it affects
+ * (needed for auditing).
  *
- * Al depender solo de esta abstraccion, el ControlRemoto (invoker)
- * puede ejecutar y deshacer cualquier accion presente o futura sin
- * conocer los detalles de cada dispositivo (Open/Closed + Dependency
+ * By depending only on this abstraction, the ControlRemoto (invoker)
+ * can execute and undo any current or future action without
+ * knowing the details of each device (Open/Closed + Dependency
  * Inversion).
  */
 public interface Comando {
 
-    /** Ejecuta la accion sobre el dispositivo. */
-    void ejecutar();
+    /** Executes the action on the device. */
+    void execute();
 
-    /** Revierte la accion, dejando el dispositivo en su estado previo. */
-    void deshacer();
+    /** Reverts the action, leaving the device in its previous state. */
+    void undo();
 
-    /** Descripcion legible de la accion, para historial y auditoria. */
-    String getDescripcion();
+    /** Readable description of the action, for history and audit. */
+    String getDescription();
 
-    /** Dispositivo afectado por este comando. */
-    Dispositivo getDispositivo();
+    /** Device affected by this command. */
+    Dispositivo getDevice();
 }

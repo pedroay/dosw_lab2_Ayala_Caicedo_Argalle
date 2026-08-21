@@ -4,48 +4,48 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Entrada del historial de auditoria: registra QUE comando se ejecuto,
- * QUIEN lo ejecuto, CUANDO, y si posteriormente fue deshecho.
- * Es la pieza que permite responder las preguntas de auditoria
- * (quien hizo cada accion, que se deshizo, quien cambio cada dispositivo).
+ * Audit history entry: records WHICH command was executed,
+ * WHO executed it, WHEN, and if it was subsequently undone.
+ * It is the piece that allows answering audit questions
+ * (who did each action, what was undone, who changed each device).
  */
 public class RegistroAccion {
 
-    private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    private final Comando comando;
-    private final String usuario;
-    private final LocalDateTime momento;
-    private boolean deshecha;
+    private final Comando command;
+    private final String user;
+    private final LocalDateTime timestamp;
+    private boolean undone;
 
-    public RegistroAccion(Comando comando, String usuario) {
-        this.comando = comando;
-        this.usuario = usuario;
-        this.momento = LocalDateTime.now();
-        this.deshecha = false;
+    public RegistroAccion(Comando command, String user) {
+        this.command = command;
+        this.user = user;
+        this.timestamp = LocalDateTime.now();
+        this.undone = false;
     }
 
-    public Comando getComando() {
-        return comando;
+    public Comando getCommand() {
+        return command;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUser() {
+        return user;
     }
 
-    public boolean isDeshecha() {
-        return deshecha;
+    public boolean isUndone() {
+        return undone;
     }
 
-    public void marcarDeshecha() {
-        this.deshecha = true;
+    public void markUndone() {
+        this.undone = true;
     }
 
     @Override
     public String toString() {
-        String estado = deshecha ? "DESHECHA" : "VIGENTE";
-        return String.format("[%s] %s | Usuario: %-10s | Dispositivo: %-14s | Estado: %s",
-                momento.format(FORMATO), comando.getDescripcion(),
-                usuario, comando.getDispositivo().getNombre(), estado);
+        String state = undone ? "UNDONE" : "ACTIVE";
+        return String.format("[%s] %s | User: %-10s | Device: %-14s | State: %s",
+                timestamp.format(FORMAT), command.getDescription(),
+                user, command.getDevice().getName(), state);
     }
 }

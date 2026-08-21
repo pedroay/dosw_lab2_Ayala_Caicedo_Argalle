@@ -1,31 +1,31 @@
 package edu.eci.dosw.reto7;
 
-/** Receiver: una persiana/ventana con posicion (0=cerrada, 100=abierta). */
+/** Receiver: a blind/window with position (0=closed, 100=opened). */
 public class Persiana implements Dispositivo {
 
-    private final String nombre;
-    private int posicion; 
+    private final String name;
+    private int position; 
 
-    public Persiana(String nombre) {
-        this.nombre = nombre;
-        this.posicion = 0;
+    public Persiana(String name) {
+        this.name = name;
+        this.position = 0;
     }
 
-    public void ajustarPosicion(int posicion) {
-        this.posicion = Math.max(0, Math.min(100, posicion));
+    public void adjustPosition(int position) {
+        this.position = Math.max(0, Math.min(100, position));
     }
 
-    public int getPosicion() {
-        return posicion;
+    public int getPosition() {
+        return position;
     }
 
     @Override
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return nombre + " [posicion=" + posicion + "]";
+        return name + " [position=" + position + "]";
     }
 }

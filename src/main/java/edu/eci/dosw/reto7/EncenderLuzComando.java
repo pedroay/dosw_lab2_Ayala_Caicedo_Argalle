@@ -1,31 +1,31 @@
 package edu.eci.dosw.reto7;
 
-/** Comando concreto: enciende una luz. Deshacer la vuelve a apagar. */
+/** Concrete command: turns on a light. Undoing turns it off again. */
 public class EncenderLuzComando implements Comando {
 
-    private final Luz luz;
+    private final Luz light;
 
-    public EncenderLuzComando(Luz luz) {
-        this.luz = luz;
+    public EncenderLuzComando(Luz light) {
+        this.light = light;
     }
 
     @Override
-    public void ejecutar() {
-        luz.encender();
+    public void execute() {
+        light.turnOn();
     }
 
     @Override
-    public void deshacer() {
-        luz.apagar();
+    public void undo() {
+        light.turnOff();
     }
 
     @Override
-    public String getDescripcion() {
-        return "Encender " + luz.getNombre();
+    public String getDescription() {
+        return "Turn on " + light.getName();
     }
 
     @Override
-    public Dispositivo getDispositivo() {
-        return luz;
+    public Dispositivo getDevice() {
+        return light;
     }
 }

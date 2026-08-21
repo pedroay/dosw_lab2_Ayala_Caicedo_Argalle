@@ -1,39 +1,39 @@
 package edu.eci.dosw.reto7;
 
 /**
- * Comando concreto con parametro: fija la posicion de una persiana.
- * Igual que SetVolumenComando, guarda la posicion anterior para poder
- * restaurarla exactamente al deshacer.
+ * Concrete command with parameter: sets the position of a blind.
+ * Like SetVolumenComando, saves the previous position to be able to
+ * restore it exactly when undoing.
  */
 public class AjustarPersianaComando implements Comando {
 
-    private final Persiana persiana;
-    private final int nuevaPosicion;
-    private int posicionAnterior;
+    private final Persiana blind;
+    private final int newPosition;
+    private int previousPosition;
 
-    public AjustarPersianaComando(Persiana persiana, int nuevaPosicion) {
-        this.persiana = persiana;
-        this.nuevaPosicion = nuevaPosicion;
+    public AjustarPersianaComando(Persiana blind, int newPosition) {
+        this.blind = blind;
+        this.newPosition = newPosition;
     }
 
     @Override
-    public void ejecutar() {
-        this.posicionAnterior = persiana.getPosicion();
-        persiana.ajustarPosicion(nuevaPosicion);
+    public void execute() {
+        this.previousPosition = blind.getPosition();
+        blind.adjustPosition(newPosition);
     }
 
     @Override
-    public void deshacer() {
-        persiana.ajustarPosicion(posicionAnterior);
+    public void undo() {
+        blind.adjustPosition(previousPosition);
     }
 
     @Override
-    public String getDescripcion() {
-        return "Ajustar " + persiana.getNombre() + " a posicion " + nuevaPosicion;
+    public String getDescription() {
+        return "Adjust " + blind.getName() + " to position " + newPosition;
     }
 
     @Override
-    public Dispositivo getDispositivo() {
-        return persiana;
+    public Dispositivo getDevice() {
+        return blind;
     }
 }
