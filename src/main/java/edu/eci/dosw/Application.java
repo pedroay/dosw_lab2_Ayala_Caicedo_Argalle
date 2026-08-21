@@ -14,12 +14,12 @@ public class Application {
         System.out.println("Maven project configured and running correctly.");
         System.out.println();
 
-        //Reto1TiendaDonPepe.run();
-        //Reto2RestauranteHamburguesa.run();
-        //Reto3ReinoVehiculos.run();
-        //Reto4CambioMoneda.run();
-        //Reto5Cafeteria.run();
-        //Reto6Tecnicos.run();
+        Reto1TiendaDonPepe.run();
+        Reto2RestauranteHamburguesa.run();
+        Reto3ReinoVehiculos.run();
+        Reto4CambioMoneda.run();
+        Reto5Cafeteria.run();
+        Reto6Tecnicos.run();
         Reto7MagicControl.run();
 
     }
